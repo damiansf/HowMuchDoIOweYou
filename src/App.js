@@ -1,16 +1,18 @@
-import React from 'react';
-import './App.css';
+import Main from './main';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actionDefs from './actions/actionDefs';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          How Much Do I Owe You?
-        </p>
-      </header>
-    </div>
-  );
+function mapStateToProps(state) {
+  return {
+
+  }
 }
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators(actionDefs, dispatch);
+}
+
+const App = connect(mapStateToProps, mapDispatchToProps)(Main);
 
 export default App;
