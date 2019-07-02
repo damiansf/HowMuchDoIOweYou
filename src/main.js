@@ -4,7 +4,6 @@ import AddUser from './components/addUser'
 export default class Main extends React.Component {
 
   render() {
-    console.warn(this.props);
     return (
       <div className="App">
         <header className="App-header">
