@@ -1,9 +1,12 @@
 import * as actionConst from '../actions/action-constants';
 
+import {checkForDebtInstance} from '../utils';
+
 const initialState = {
   emails: [],
   users: {},
-  debtMap: {}
+  debtMap: {},
+  debtList: []
 }
 
 function reducer(state = initialState, action) {
@@ -14,6 +17,30 @@ function reducer(state = initialState, action) {
         users: {
           ...state.users,
           [action.email]: action.payload
+        }
+      }
+    }
+    case actionConst.addDebt: {
+
+      let id = action.payload.userIDOne + action.payload.userIDTwo;
+
+      if(checkForDebtInstance(state.debtList, action.payload.userIDOne, action.payload.userIDTwo)) {
+
+        return {
+          debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
+          debtMap: {
+            ...state.debtMap,
+            [id]: action.payload
+          }
+        }
+
+      } else {
+        return {
+          debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
+          debtMap: {
+            ...state.debtMap,
+            [id]: action.payload
+          }
         }
       }
     }
