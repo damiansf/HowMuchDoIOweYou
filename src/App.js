@@ -5,7 +5,7 @@ import * as actionDefs from './actions/actionDefs';
 
 function mapStateToProps(state) {
   return {
-
+    emails: state.emails,
   }
 }
 

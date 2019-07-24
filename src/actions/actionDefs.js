@@ -17,7 +17,9 @@ export function addDebt(data) {
   let userOne = "";
   let userTwo = "";
 
-  if(data.userOne.localeCompare(data.userTwo) > 0) {
+  console.log(data)
+
+  if(data.userOne.localeCompare(data.userTwo) < 0) {
     userOne = data.userOne;
     userTwo = data.userTwo;
   } else {
@@ -30,7 +32,8 @@ export function addDebt(data) {
     payload: {
       userIDOne: userOne,
       userIDTwo: userTwo,
-      Amount: data.amount
+      amount: data.amount,
+      notes: data.notes
     }
   }
 }

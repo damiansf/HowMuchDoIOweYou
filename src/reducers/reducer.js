@@ -13,6 +13,7 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case actionConst.addUser: {
       return {
+        ...state,
         emails: [...state.emails, action.email],
         users: {
           ...state.users,
@@ -27,6 +28,7 @@ function reducer(state = initialState, action) {
       if(checkForDebtInstance(state.debtList, action.payload.userIDOne, action.payload.userIDTwo)) {
 
         return {
+          ...state,
           debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
           debtMap: {
             ...state.debtMap,
@@ -36,6 +38,7 @@ function reducer(state = initialState, action) {
 
       } else {
         return {
+          ...state,
           debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
           debtMap: {
             ...state.debtMap,
