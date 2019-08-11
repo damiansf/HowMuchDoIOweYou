@@ -1,6 +1,7 @@
 import React from 'react';
 import AddUser from './components/addUser'
 import AddDebt from './components/addDebt'
+import DisplayDebts from './components/displayDebts'
 
 export default class Main extends React.Component {
 
@@ -13,7 +14,7 @@ export default class Main extends React.Component {
           </p>
         </header>
         <AddUser addUser={this.props.addUser} />
-        <AddDebt addDebt={this.props.addDebt} emails={this.props.emails}/>
+        <AddDebt addDebt={this.props.addDebt} emails={this.props.emails} users={this.props.users}/>
       </div>
     );
   }

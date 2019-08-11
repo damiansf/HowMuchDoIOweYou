@@ -9,7 +9,8 @@ export default class AddDebt extends React.Component {
       amount: "",
       notes: "",
       emailOne: "",
-      emailTwo: ""
+      emailTwo: "",
+      identifiers: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,6 +18,12 @@ export default class AddDebt extends React.Component {
     this.handleOwnerEmail = this.handleOwnerEmail.bind(this);
     this.handleSlaveEmail = this.handleSlaveEmail.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
+    this.getIdentifier = this.getIdentifier.bind(this);
+  }
+
+  getIdentifier(email) {
+    let user = this.props.users[email];
+    return user.firstName + " " + user.lastName + " (" + email + ")";
   }
 
   handleAmount(event) {
@@ -52,10 +59,10 @@ export default class AddDebt extends React.Component {
     return (
       <form>
         <select onChange={this.handleOwnerEmail}>
-          {this.props.emails.map((email) => <option key={email} value={email} >{email}</option>)}
+          {this.props.emails.map((email, index) => <option key={email} value={email} >{this.getIdentifier(email)}</option>)}
         </select>
         <select onChange={this.handleSlaveEmail}>
-          {this.props.emails.map((email) => <option key={email} value={email} >{email}</option>)}
+          {this.props.emails.map((email, index) => <option key={email} value={email} >{this.getIdentifier(email)}</option>)}
         </select>
         <label>
           Amount:
