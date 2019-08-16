@@ -15,6 +15,7 @@ export default class Main extends React.Component {
         </header>
         <AddUser addUser={this.props.addUser} />
         <AddDebt addDebt={this.props.addDebt} emails={this.props.emails} users={this.props.users}/>
+        <DisplayDebts emails={this.props.emails} users={this.props.users} debtMap={this.props.debtMap} debtList={this.props.debtList}/>
       </div>
     );
   }

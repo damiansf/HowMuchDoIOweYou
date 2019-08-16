@@ -29,20 +29,28 @@ function reducer(state = initialState, action) {
 
         return {
           ...state,
-          debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
           debtMap: {
             ...state.debtMap,
-            [id]: action.payload
+            [id]: {
+              debts: [
+                ...state.debtMap[id].debts,
+                action.payload
+              ]
+            }
           }
         }
 
       } else {
         return {
           ...state,
-          debtList: [...state.debtList, action.userIDOne + action.userIDTwo],
+          debtList: [...state.debtList, id],
           debtMap: {
             ...state.debtMap,
-            [id]: action.payload
+            [id]: {
+              debts: [
+                action.payload
+              ]
+            }
           }
         }
       }
