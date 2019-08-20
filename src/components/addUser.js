@@ -22,8 +22,12 @@ export default class AddUser extends React.Component {
       lastName: this.state.lastName,
       email: this.state.email
     };
-    this.props.addUser(obj);
-    alert("User added");
+    if (!this.props.emails.includes(this.state.email)) {
+      this.props.addUser(obj);
+      alert("User added");
+    } else {
+      alert("User with same email already exists");
+    }
   }
 
   handleFirstName(event) {

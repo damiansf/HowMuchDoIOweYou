@@ -11,7 +11,7 @@ export default class Main extends React.Component {
         <header className="App-header">
           <p>How Much Do I Owe You?</p>
         </header>
-        <AddUser addUser={this.props.addUser} />
+        <AddUser addUser={this.props.addUser} emails={this.props.emails} />
         <AddDebt
           addDebt={this.props.addDebt}
           emails={this.props.emails}
