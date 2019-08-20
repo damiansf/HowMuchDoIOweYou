@@ -2,14 +2,7 @@ import * as actionConst from "../actions/action-constants";
 
 import { checkForDebtInstance } from "../utils";
 
-const initialState = {
-  emails: [],
-  users: {},
-  debtMap: {},
-  debtList: []
-};
-
-function reducer(state = initialState, action) {
+function reducer(state , action) {
   switch (action.type) {
     case actionConst.addUser: {
       return {
