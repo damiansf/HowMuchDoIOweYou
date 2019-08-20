@@ -1,13 +1,13 @@
-import * as actionConst from '../actions/action-constants';
+import * as actionConst from "../actions/action-constants";
 
-import {checkForDebtInstance} from '../utils';
+import { checkForDebtInstance } from "../utils";
 
 const initialState = {
   emails: [],
   users: {},
   debtMap: {},
   debtList: []
-}
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -19,27 +19,27 @@ function reducer(state = initialState, action) {
           ...state.users,
           [action.email]: action.payload
         }
-      }
+      };
     }
     case actionConst.addDebt: {
-
       let id = action.payload.userIDOne + action.payload.userIDTwo;
 
-      if(checkForDebtInstance(state.debtList, action.payload.userIDOne, action.payload.userIDTwo)) {
-
+      if (
+        checkForDebtInstance(
+          state.debtList,
+          action.payload.userIDOne,
+          action.payload.userIDTwo
+        )
+      ) {
         return {
           ...state,
           debtMap: {
             ...state.debtMap,
             [id]: {
-              debts: [
-                ...state.debtMap[id].debts,
-                action.payload
-              ]
+              debts: [...state.debtMap[id].debts, action.payload]
             }
           }
-        }
-
+        };
       } else {
         return {
           ...state,
@@ -47,12 +47,10 @@ function reducer(state = initialState, action) {
           debtMap: {
             ...state.debtMap,
             [id]: {
-              debts: [
-                action.payload
-              ]
+              debts: [action.payload]
             }
           }
-        }
+        };
       }
     }
     default: {
