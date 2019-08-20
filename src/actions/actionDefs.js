@@ -1,4 +1,4 @@
-import * as actionConst from './action-constants';
+import * as actionConst from "./action-constants";
 
 export function addUser(data) {
   return {
@@ -9,17 +9,14 @@ export function addUser(data) {
       email: data.email
     },
     email: data.email
-  }
+  };
 }
 
 export function addDebt(data) {
-
   let userOne = "";
   let userTwo = "";
 
-  console.log(data)
-
-  if(data.userOne.localeCompare(data.userTwo) < 0) {
+  if (data.userOne.localeCompare(data.userTwo) < 0) {
     userOne = data.userOne;
     userTwo = data.userTwo;
   } else {
@@ -35,5 +32,5 @@ export function addDebt(data) {
       amount: data.amount,
       notes: data.notes
     }
-  }
+  };
 }

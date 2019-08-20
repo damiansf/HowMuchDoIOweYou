@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
 export default class AddDebt extends React.Component {
-
   constructor() {
     super();
 
@@ -28,20 +27,20 @@ export default class AddDebt extends React.Component {
 
   handleAmount(event) {
     if (!isNaN(event.target.value)) {
-      this.setState({amount: event.target.value});
+      this.setState({ amount: event.target.value });
     }
   }
 
   handleNotes(event) {
-    this.setState({notes: event.target.value});
+    this.setState({ notes: event.target.value });
   }
 
   handleOwnerEmail(event) {
-    this.setState({emailOne: event.target.value});
+    this.setState({ emailOne: event.target.value });
   }
 
   handleSlaveEmail(event) {
-    this.setState({emailTwo: event.target.value});
+    this.setState({ emailTwo: event.target.value });
   }
 
   handleSubmit(event) {
@@ -50,29 +49,47 @@ export default class AddDebt extends React.Component {
       userTwo: this.state.emailTwo ? this.state.emailTwo : this.props.emails[0],
       amount: this.state.amount,
       notes: this.state.notes
-    }
+    };
     this.props.addDebt(obj);
-    alert('User Debt added');
+    alert("User Debt added");
   }
 
   render() {
     return (
       <form>
         <select onChange={this.handleOwnerEmail}>
-          {this.props.emails.map((email, index) => <option key={email} value={email} >{this.getIdentifier(email)}</option>)}
+          {this.props.emails.map((email, index) => (
+            <option key={email} value={email}>
+              {this.getIdentifier(email)}
+            </option>
+          ))}
         </select>
         <select onChange={this.handleSlaveEmail}>
-          {this.props.emails.map((email, index) => <option key={email} value={email} >{this.getIdentifier(email)}</option>)}
+          {this.props.emails.map((email, index) => (
+            <option key={email} value={email}>
+              {this.getIdentifier(email)}
+            </option>
+          ))}
         </select>
         <label>
           Amount:
-          <input type="text" name="amount" value={this.state.amount} onChange={this.handleAmount} />
+          <input
+            type="text"
+            name="amount"
+            value={this.state.amount}
+            onChange={this.handleAmount}
+          />
         </label>
         <label>
           Notes:
-          <input type="text" name="notes" value={this.state.notes} onChange={this.handleNotes} />
+          <input
+            type="text"
+            name="notes"
+            value={this.state.notes}
+            onChange={this.handleNotes}
+          />
         </label>
-        <input type="button" value="Submit" onClick={this.handleSubmit}/>
+        <input type="button" value="Submit" onClick={this.handleSubmit} />
       </form>
     );
   }
