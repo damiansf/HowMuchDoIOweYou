@@ -57,6 +57,7 @@ export default class AddDebt extends React.Component {
   render() {
     return (
       <form>
+        <span>owner</span>
         <select onChange={this.handleOwnerEmail}>
           {this.props.emails.map((email, index) => (
             <option key={email} value={email}>
@@ -64,6 +65,7 @@ export default class AddDebt extends React.Component {
             </option>
           ))}
         </select>
+        <span>slave</span>
         <select onChange={this.handleSlaveEmail}>
           {this.props.emails.map((email, index) => (
             <option key={email} value={email}>

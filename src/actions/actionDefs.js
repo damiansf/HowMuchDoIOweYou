@@ -15,13 +15,15 @@ export function addUser(data) {
 export function addDebt(data) {
   let userOne = "";
   let userTwo = "";
+  let multiplier = 1;
 
   if (data.userOne.localeCompare(data.userTwo) < 0) {
-    userOne = data.userOne;
+    userOne = data.userOne;    
     userTwo = data.userTwo;
+    multiplier = -1;
   } else {
-    userOne = data.userTwo;
-    userTwo = data.userOne;
+    userOne = data.userTwo;    
+    userTwo = data.userOne;        
   }
 
   return {
@@ -29,7 +31,7 @@ export function addDebt(data) {
     payload: {
       userIDOne: userOne,
       userIDTwo: userTwo,
-      amount: data.amount,
+      amount: data.amount * multiplier,
       notes: data.notes
     }
   };
