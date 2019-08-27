@@ -22,7 +22,7 @@ export default class AddUser extends React.Component {
       lastName: this.state.lastName,
       email: this.state.email
     };
-    if (!this.props.emails.includes(this.state.email)) {
+    if(!this.props.emails.includes(this.state.email)) {
       this.props.addUser(obj);
       alert("User added");
     } else {
