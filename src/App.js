@@ -1,24 +1,18 @@
-import Main from "./main";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import * as actionDefs from "./actions/actionDefs";
+import React from "react";
+import AddUserContainer from "./containers/addUserContainer";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-function mapStateToProps(state) {
-  return {
-    emails: state.emails,
-    users: state.users,
-    debtList: state.debtList,
-    debtMap: state.debtMap
-  };
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <header>
+          <p>How Much Do I Owe You?</p>
+        </header>
+        <Router>
+          <Route path="/addUser" component={AddUserContainer} />
+        </Router>
+      </div>
+    );
+  }
 }
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionDefs, dispatch);
-}
-
-const App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Main);
-
-export default App;
