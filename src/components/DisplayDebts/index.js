@@ -1,150 +1,80 @@
 import React from "react";
+import { getIdentifier } from "../../utils";
 
-export default class DisplayDebts extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      data: null,
-      emailOne: "",
-      emailTwo: "",
-      amount: 0
-    };
-
-    this.getIdentifier = this.getIdentifier.bind(this);
-    this.handleOwnerEmail = this.handleOwnerEmail.bind(this);
-    this.handleSlaveEmail = this.handleSlaveEmail.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleOwnerEmail(event) {
-    this.setState({ emailOne: event.target.value });
-  }
-
-  handleSlaveEmail(event) {
-    this.setState({ emailTwo: event.target.value });
-  }
-
-  handleSubmit() {
-    let str;
-    let total = 0;
-
-    if (this.state.emailOne.localeCompare(this.state.emailTwo) < 0) {
-      if (
-        this.props.debtList.includes(this.state.emailOne + this.state.emailTwo)
-      ) {
-        str = this.buildTableBody(
-          this.props.debtMap[this.state.emailOne + this.state.emailTwo],
-          -1
-        );
-        this.props.debtMap[this.state.emailOne + this.state.emailTwo].debts.map(
-          (debt, index) => {
-            total += debt.amount * -1;
+export const DisplayDebts = ({
+  handleOwnerEmail,
+  handleSlaveEmail,
+  setTotalAmount,
+  setData,
+  buildDebtMapTable,
+  emails,
+  users,
+  debtMap,
+  debtList,
+  emailOne,
+  emailTwo,
+  displayData,
+  totalAmount
+}) => (
+  <div>
+    <form>
+      <span>slave</span>
+      <select onChange={e => handleSlaveEmail(e)}>
+        <option>--</option>
+        {emails.map(email => {
+          return getIdentifier(email, users[email]);
+        })}
+      </select>
+      <span>owner</span>
+      <select onChange={e => handleOwnerEmail(e)}>
+        <option>--</option>
+        {emails.map(email => {
+          return getIdentifier(email, users[email]);
+        })}
+      </select>
+      <input
+        type="button"
+        value="Submit"
+        onClick={() => {
+          let data = null;
+          let amount = 0;
+          if (emailOne.localeCompare(emailTwo) < 0) {
+            if (debtList.includes(emailOne + emailTwo)) {
+              data = buildDebtMapTable(debtMap[emailOne + emailTwo], -1);
+              amount =
+                debtMap[emailOne + emailTwo].debts.reduce(
+                  (prev, curr) => prev + curr.amount,
+                  0
+                ) * -1;
+              setTotalAmount(amount);
+              setData(data);
+            }
+          } else {
+            if (debtList.includes(emailTwo + emailOne)) {
+              data = buildDebtMapTable(debtMap[emailTwo + emailOne], 1);
+              amount = debtMap[emailTwo + emailOne].debts.reduce(
+                (prev, curr) => prev + curr.amount,
+                0
+              );
+              setTotalAmount(amount);
+              setData(data);
+            }
           }
-        );
-      }
-    } else {
-      if (
-        this.props.debtList.includes(this.state.emailTwo + this.state.emailOne)
-      ) {
-        str = this.buildTableBody(
-          this.props.debtMap[this.state.emailTwo + this.state.emailOne],
-          1
-        );
-        this.props.debtMap[this.state.emailTwo + this.state.emailOne].debts.map(
-          (debt, index) => {
-            total += debt.amount;
-          }
-        );
-      }
-    }
-
-    this.setState({ data: str, amount: total });
-  }
-
-  buildTableBody(data, multiplier) {
-    console.log(data);
-    if (multiplier === 1) {
-      return data.debts.map((debt, index) => {
-        return (
-          <tr key={index}>
-            <td>{debt.userIDOne}</td>
-            <td>{debt.userIDTwo}</td>
-            <td>{debt.amount}</td>
-            <td>{debt.notes}</td>
-            <td>
-              <button />
-            </td>
-          </tr>
-        );
-      });
-    } else {
-      return data.debts.map((debt, index) => {
-        return (
-          <tr key={index}>
-            <td>{debt.userIDTwo}</td>
-            <td>{debt.userIDOne}</td>
-            <td>{debt.amount * multiplier}</td>
-            <td>{debt.notes}</td>
-            <td>
-              <button />
-            </td>
-          </tr>
-        );
-      });
-    }
-  }
-
-  getIdentifier(email) {
-    let user = this.props.users[email];
-    return user.firstName + " " + user.lastName + " (" + email + ")";
-  }
-
-  render() {
-    return (
-      <div>
-        <form>
-          <span>slave</span>
-          <select onChange={this.handleSlaveEmail}>
-            <option>--</option>
-            {this.props.emails.map(email => (
-              <option key={email} value={email}>
-                {this.getIdentifier(email)}
-              </option>
-            ))}
-          </select>
-          <span>owner</span>
-          <select onChange={this.handleOwnerEmail}>
-            <option>--</option>
-            {this.props.emails.map(email => (
-              <option key={email} value={email}>
-                {this.getIdentifier(email)}
-              </option>
-            ))}
-          </select>
-          <input type="button" value="Submit" onClick={this.handleSubmit} />
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>User One</th>
-              <th>User Two</th>
-              <th>Amount</th>
-              <th>Notes</th>
-              <th>Delete Debt</th>
-            </tr>
-          </thead>
-          <tbody>{this.state.data}</tbody>
-        </table>
-        <div>
-          <span>
-            {this.state.emailTwo +
-              " Owes " +
-              this.state.emailOne +
-              this.state.amount}
-          </span>
-        </div>
-      </div>
-    );
-  }
-}
+        }}
+      />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>User One</th>
+          <th>User Two</th>
+          <th>Amount</th>
+          <th>Notes</th>
+          <th>Delete Debt</th>
+        </tr>
+      </thead>
+      <tbody>{displayData}</tbody>
+    </table>
+    <span>{totalAmount}</span>
+  </div>
+);
