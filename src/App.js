@@ -16,6 +16,11 @@ export default class App extends React.Component {
           <Route path="/addDebt" component={AddDebtContainer} />
           <Route path="/displayDebts" component={DisplayDebtsContainer} />
         </Router>
+        <a href="/addUser">Add User</a>
+        <br></br>
+        <a href="/addDebt">Add Debt</a>
+        <br></br>
+        <a href="/displayDebts">Display Debts</a>
       </div>
     );
   }
