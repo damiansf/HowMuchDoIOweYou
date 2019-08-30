@@ -7,13 +7,47 @@ class DisplayDebtsContainer extends React.Component {
     super();
 
     this.state = {
-      displayData: null,
-      emailOne: "",
-      emailTwo: "",
-      totalAmount: 0
+      debtMapData: null,
+      ownerEmail: "",
+      slaveEmail: "",
+      singleSlaveEmail: "",
+      debtMapTotal: 0,
+      allDebtsData: null,
+      allDebtsTotal: 0,
+      singleOwnerEmail: "",
+      allCreditsTotal: 0,
+      allCreditsData: null
     };
 
     this.buildDebtMapTable = this.buildDebtMapTable.bind(this);
+    this.buildDebtsTable = this.buildDebtsTable.bind(this);
+    this.buildCreditsTable = this.buildCreditsTable.bind(this);
+  }
+
+  buildDebtsTable(ownerEmail, slaveEmail, amount) {
+    return (
+      <tr key={ownerEmail + slaveEmail + amount}>
+        <td>{slaveEmail}</td>
+        <td>{ownerEmail}</td>
+        <td>{amount}</td>
+        <td>
+          <button />
+        </td>
+      </tr>
+    );
+  }
+
+  buildCreditsTable(ownerEmail, slaveEmail, amount) {
+    return (
+      <tr key={ownerEmail + slaveEmail + amount}>
+        <td>{ownerEmail}</td>
+        <td>{slaveEmail}</td>
+        <td>{amount}</td>
+        <td>
+          <button />
+        </td>
+      </tr>
+    );
   }
 
   buildDebtMapTable(data, multiplier) {
@@ -52,24 +86,52 @@ class DisplayDebtsContainer extends React.Component {
     return (
       <DisplayDebts
         handleOwnerEmail={event =>
-          this.setState({ emailOne: event.target.value })
+          this.setState({ ownerEmail: event.target.value })
         }
         handleSlaveEmail={event =>
-          this.setState({ emailTwo: event.target.value })
+          this.setState({ slaveEmail: event.target.value })
         }
-        setTotalAmount={totalAmount =>
-          this.setState({ totalAmount: totalAmount })
+        handleSingleSlaveEmail={event =>
+          this.setState({ singleSlaveEmail: event.target.value })
         }
-        setData={data => this.setState({ displayData: data })}
+        handleSingleOwnerEmail={event =>
+          this.setState({ singleOwnerEmail: event.target.value })
+        }
+        setTotalDebtMapAmount={debtMapTotal =>
+          this.setState({ debtMapTotal: debtMapTotal })
+        }
+        setDebtMapData={debtMapData =>
+          this.setState({ debtMapData: debtMapData })
+        }
+        setTotalDebtsAmount={allDebtsTotal =>
+          this.setState({ allDebtsTotal: allDebtsTotal })
+        }
+        setTotalCreditsAmount={allCreditsTotal =>
+          this.setState({ allCreditsTotal: allCreditsTotal })
+        }
+        setDebtsData={allDebtsData =>
+          this.setState({ allDebtsData: allDebtsData })
+        }
+        setCreditsData={allCreditsData =>
+          this.setState({ allCreditsData: allCreditsData })
+        }
         buildDebtMapTable={this.buildDebtMapTable}
+        buildDebtsTable={this.buildDebtsTable}
+        buildCreditsTable={this.buildCreditsTable}
         emails={this.props.emails}
         users={this.props.users}
         debtMap={this.props.debtMap}
         debtList={this.props.debtList}
-        emailOne={this.state.emailOne}
-        emailTwo={this.state.emailTwo}
-        displayData={this.state.displayData}
-        totalAmount={this.state.totalAmount}
+        ownerEmail={this.state.ownerEmail}
+        slaveEmail={this.state.slaveEmail}
+        debtMapData={this.state.debtMapData}
+        debtMapTotal={this.state.debtMapTotal}
+        allDebtsData={this.state.allDebtsData}
+        allDebtsTotal={this.state.allDebtsTotal}
+        singleSlaveEmail={this.state.singleSlaveEmail}
+        singleOwnerEmail={this.state.singleOwnerEmail}
+        allCreditsTotal={this.state.allCreditsTotal}
+        allCreditsData={this.state.allCreditsData}
       />
     );
   }
