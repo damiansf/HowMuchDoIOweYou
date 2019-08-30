@@ -1,4 +1,5 @@
 import { ManageData } from "../components/ManageData/index";
+import { clearData } from "../actions/actionDefs";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -17,13 +18,15 @@ class ManageDataContainer extends React.Component {
   uploadData() {}
 
   render() {
-    return (
-      <ManageData></ManageData>
-    );
+    return <ManageData clearData={this.props.clearData} />;
   }
 }
-  
-  export default connect(
-    null,
-    null
-  )(ManageDataContainer);
+
+const mapDispatchToProps = dispatch => ({
+  clearData: () => dispatch(clearData())
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ManageDataContainer);

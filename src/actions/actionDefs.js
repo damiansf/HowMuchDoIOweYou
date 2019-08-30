@@ -12,6 +12,12 @@ export function addUser(data) {
   };
 }
 
+export function clearData() {
+  return {
+    type: actionConst.clearData,
+  };
+}
+
 export function addDebt(data) {
   let userOne = "";
   let userTwo = "";

@@ -2,8 +2,16 @@ import * as actionConst from "../actions/action-constants";
 
 import { checkForDebtInstance } from "../utils";
 
-function reducer(state , action) {
+function reducer(state, action) {
   switch (action.type) {
+    case actionConst.clearData: {
+      return {
+        emails: [],
+        users: {},
+        debtMap: {},
+        debtList: []
+      };
+    }
     case actionConst.addUser: {
       return {
         ...state,
