@@ -17,12 +17,14 @@ export const AddDebt = ({
   <form>
     <span>owner</span>
     <select onChange={e => handleOwnerEmail(e)}>
+      <option>--</option>
       {emails.map(email => {
         return getIdentifier(email, users[email]);
       })}
     </select>
     <span>slave</span>
     <select onChange={e => handleSlaveEmail(e)}>
+      <option>--</option>
       {emails.map(email => {
         return getIdentifier(email, users[email]);
       })}

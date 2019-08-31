@@ -1,6 +1,13 @@
 import React from "react";
 
-export const DisplayUsers = ({ users, emails }) => (
+export const DisplayUsers = ({
+  users,
+  emails,
+  debtList,
+  deleteUser,
+  deleteDebtMap,
+  checkForDebtInstance
+}) => (
   <table>
     <thead>
       <tr>
@@ -17,7 +24,25 @@ export const DisplayUsers = ({ users, emails }) => (
             <td>{users[email].lastName}</td>
             <td>{users[email].email}</td>
             <td>
-              <button />
+              <button
+                onClick={() => {
+                  let userOne,
+                    userTwo = null;
+                  emails.forEach(emailTwo => {
+                    if (email.localeCompare() < 0) {
+                      userOne = email;
+                      userTwo = emailTwo;
+                    } else {
+                      userOne = emailTwo;
+                      userTwo = email;
+                    }
+                  });
+                  if (checkForDebtInstance(debtList, userOne, userTwo)) {
+                    deleteDebtMap({ ownerEmail: userOne, slaveEmail: userTwo });
+                  }
+                  deleteUser({ email: email });
+                }}
+              />
             </td>
           </tr>
         );

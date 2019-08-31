@@ -1,4 +1,5 @@
 import { DisplayDebts } from "../components/DisplayDebts/index";
+import { deleteDebtMap, deleteDebt } from "../actions/actionDefs";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -31,7 +32,14 @@ class DisplayDebtsContainer extends React.Component {
         <td>{ownerEmail}</td>
         <td>{amount}</td>
         <td>
-          <button />
+          <button
+            onClick={() => {
+              this.props.deleteDebtMap({
+                ownerEmail: ownerEmail,
+                slaveEmail: slaveEmail
+              });
+            }}
+          />
         </td>
       </tr>
     );
@@ -44,7 +52,14 @@ class DisplayDebtsContainer extends React.Component {
         <td>{slaveEmail}</td>
         <td>{amount}</td>
         <td>
-          <button />
+          <button
+            onClick={() => {
+              this.props.deleteDebtMap({
+                ownerEmail: ownerEmail,
+                slaveEmail: slaveEmail
+              });
+            }}
+          />
         </td>
       </tr>
     );
@@ -60,7 +75,22 @@ class DisplayDebtsContainer extends React.Component {
             <td>{debt.amount}</td>
             <td>{debt.notes}</td>
             <td>
-              <button />
+              <button
+                onClick={() => {
+                  if (data.debts.length < 1) {
+                    this.props.deleteDebtMap({
+                      ownerEmail: debt.userIDTwo,
+                      slaveEmail: debt.userIDOne
+                    });
+                  } else {
+                    this.props.deleteDebt({
+                      index: index,
+                      ownerEmail: debt.userIDTwo,
+                      slaveEmail: debt.userIDOne
+                    });
+                  }
+                }}
+              />
             </td>
           </tr>
         );
@@ -74,7 +104,22 @@ class DisplayDebtsContainer extends React.Component {
             <td>{debt.amount * multiplier}</td>
             <td>{debt.notes}</td>
             <td>
-              <button />
+              <button
+                onClick={() => {
+                  if (data.debts.length < 1) {
+                    this.props.deleteDebtMap({
+                      ownerEmail: debt.userIDTwo,
+                      slaveEmail: debt.userIDOne
+                    });
+                  } else {
+                    this.props.deleteDebt({
+                      index: index,
+                      ownerEmail: debt.userIDTwo,
+                      slaveEmail: debt.userIDOne
+                    });
+                  }
+                }}
+              />
             </td>
           </tr>
         );
@@ -141,10 +186,17 @@ const mapStateToProps = state => ({
   emails: state.emails,
   users: state.users,
   debtMap: state.debtMap,
-  debtList: state.debtList
+  debtList: state.debtList,
+  deleteDebtMap: state.deleteDebtMap,
+  deleteDebt: state.deleteDebt
+});
+
+const mapDispatchToProps = dispatch => ({
+  deleteDebtMap: data => dispatch(deleteDebtMap(data)),
+  deleteDebt: data => dispatch(deleteDebt(data))
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(DisplayDebtsContainer);

@@ -14,7 +14,52 @@ export function addUser(data) {
 
 export function clearData() {
   return {
-    type: actionConst.clearData,
+    type: actionConst.clearData
+  };
+}
+
+export function deleteDebt(data) {
+  let userOne = "";
+  let userTwo = "";
+
+  if (data.ownerEmail.localeCompare(data.slaveEmail) < 0) {
+    userOne = data.ownerEmail;
+    userTwo = data.slaveEmail;
+  } else {
+    userOne = data.slaveEmail;
+    userTwo = data.ownerEmail;
+  }
+
+  return {
+    type: actionConst.deleteDebt,
+    payload: { userIDOne: userOne, userIDTwo: userTwo, index: data.index }
+  };
+}
+
+export function deleteUser(data) {
+  return {
+    type: actionConst.deleteUser,
+    payload: {
+      email: data.email
+    }
+  };
+}
+
+export function deleteDebtMap(data) {
+  let userOne = "";
+  let userTwo = "";
+
+  if (data.ownerEmail.localeCompare(data.slaveEmail) < 0) {
+    userOne = data.ownerEmail;
+    userTwo = data.slaveEmail;
+  } else {
+    userOne = data.slaveEmail;
+    userTwo = data.ownerEmail;
+  }
+
+  return {
+    type: actionConst.deleteDebtMap,
+    payload: { userIDOne: userOne, userIDTwo: userTwo }
   };
 }
 
@@ -24,12 +69,12 @@ export function addDebt(data) {
   let multiplier = 1;
 
   if (data.userOne.localeCompare(data.userTwo) < 0) {
-    userOne = data.userOne;    
+    userOne = data.userOne;
     userTwo = data.userTwo;
     multiplier = -1;
   } else {
-    userOne = data.userTwo;    
-    userTwo = data.userOne;        
+    userOne = data.userTwo;
+    userTwo = data.userOne;
   }
 
   return {
