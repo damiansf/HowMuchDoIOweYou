@@ -48,6 +48,23 @@ class ManageDataContainer extends React.Component {
                 debts: obj.debtMap[debt].debts,
                 key: debt
               });
+            } else {
+              obj.debtMap[debt].debts.forEach(debtItem => {
+                let existing = false;
+                this.props.debtMap[debt].debts.forEach(existingDebtItem => {
+                  if (existingDebtItem.timeStamp === debtItem.timeStamp) {
+                    existing = true;
+                  }
+                });
+                if (!existing) {
+                  this.props.addDebt({
+                    userOne: debtItem.userIDOne,
+                    userTwo: debtItem.userIDTwo,
+                    amount: debtItem.amount * -1,
+                    notes: debtItem.notes
+                  });
+                }
+              });
             }
           });
         } catch (error) {

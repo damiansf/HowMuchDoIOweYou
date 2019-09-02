@@ -83,7 +83,8 @@ export function addDebt(data) {
       userIDOne: userOne,
       userIDTwo: userTwo,
       amount: data.amount * multiplier,
-      notes: data.notes
+      notes: data.notes,
+      timeStamp: Date.now()
     }
   };
 }
