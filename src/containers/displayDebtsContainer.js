@@ -186,9 +186,7 @@ const mapStateToProps = state => ({
   emails: state.emails,
   users: state.users,
   debtMap: state.debtMap,
-  debtList: state.debtList,
-  deleteDebtMap: state.deleteDebtMap,
-  deleteDebt: state.deleteDebt
+  debtList: state.debtList
 });
 
 const mapDispatchToProps = dispatch => ({

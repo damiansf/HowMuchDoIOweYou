@@ -87,3 +87,13 @@ export function addDebt(data) {
     }
   };
 }
+
+export function addDebtInstance(data) {
+  return {
+    type: actionConst.addDebtInstance,
+    payload: {
+      key: data.key,
+      debts: data.debts
+    }
+  };
+}

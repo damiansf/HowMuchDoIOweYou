@@ -4,6 +4,18 @@ import { checkForDebtInstance } from "../utils";
 
 function reducer(state, action) {
   switch (action.type) {
+    case actionConst.addDebtInstance: {
+      return {
+        ...state,
+        debtList: [...state.debtList, action.payload.key],
+        debtMap: {
+          ...state.debtMap,
+          [action.payload.key]: {
+            debts: action.payload.debts
+          }
+        }
+      };
+    }
     case actionConst.deleteDebt: {
       let id = action.payload.userIDOne + action.payload.userIDTwo;
       return {
