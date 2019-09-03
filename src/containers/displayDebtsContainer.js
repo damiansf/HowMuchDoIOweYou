@@ -17,7 +17,9 @@ class DisplayDebtsContainer extends React.Component {
       allDebtsTotal: 0,
       singleOwnerEmail: "",
       allCreditsTotal: 0,
-      allCreditsData: null
+      allCreditsData: null,
+      numDebts: 0,
+      numCredits: 0
     };
 
     this.buildDebtMapTable = this.buildDebtMapTable.bind(this);
@@ -38,6 +40,15 @@ class DisplayDebtsContainer extends React.Component {
                 ownerEmail: ownerEmail,
                 slaveEmail: slaveEmail
               });
+              if (this.state.numDebts === 1) {
+                this.setState({
+                  numDebts: 0,
+                  allDebtsData: null,
+                  allDebtsTotal: 0
+                });
+              } else {
+                this.setState({ numDebts: this.state.numDebts - 1 });
+              }
             }}
           />
         </td>
@@ -58,6 +69,15 @@ class DisplayDebtsContainer extends React.Component {
                 ownerEmail: ownerEmail,
                 slaveEmail: slaveEmail
               });
+              if (this.state.numCredits === 1) {
+                this.setState({
+                  numCredits: 0,
+                  allCreditsData: null,
+                  allCreditsTotal: 0
+                });
+              } else {
+                this.setState({ numCredits: this.state.numCredits - 1 });
+              }
             }}
           />
         </td>
@@ -77,16 +97,27 @@ class DisplayDebtsContainer extends React.Component {
             <td>
               <button
                 onClick={() => {
-                  if (data.debts.length < 1) {
+                  if (data.debts.length <= 1) {
                     this.props.deleteDebtMap({
                       ownerEmail: debt.userIDTwo,
                       slaveEmail: debt.userIDOne
+                    });
+                    this.setState({
+                      debtMapData: null,
+                      debtMapTotal: 0
                     });
                   } else {
                     this.props.deleteDebt({
                       index: index,
                       ownerEmail: debt.userIDTwo,
                       slaveEmail: debt.userIDOne
+                    });
+                    let newTotal = this.state.debtMapTotal - debt.amount;
+                    let newData = data;
+                    newData.debts.splice(index, 1);
+                    this.setState({
+                      debtMapData: this.buildDebtMapTable(newData, multiplier),
+                      debtMapTotal: newTotal
                     });
                   }
                 }}
@@ -106,16 +137,27 @@ class DisplayDebtsContainer extends React.Component {
             <td>
               <button
                 onClick={() => {
-                  if (data.debts.length < 1) {
+                  if (data.debts.length <= 1) {
                     this.props.deleteDebtMap({
                       ownerEmail: debt.userIDTwo,
                       slaveEmail: debt.userIDOne
+                    });
+                    this.setState({
+                      debtMapData: null,
+                      debtMapTotal: 0
                     });
                   } else {
                     this.props.deleteDebt({
                       index: index,
                       ownerEmail: debt.userIDTwo,
                       slaveEmail: debt.userIDOne
+                    });
+                    let newTotal = this.state.debtMapTotal + debt.amount;
+                    let newData = data;
+                    newData.debts.splice(index, 1);
+                    this.setState({
+                      debtMapData: this.buildDebtMapTable(newData, multiplier),
+                      debtMapTotal: newTotal
                     });
                   }
                 }}
@@ -160,6 +202,8 @@ class DisplayDebtsContainer extends React.Component {
         setCreditsData={allCreditsData =>
           this.setState({ allCreditsData: allCreditsData })
         }
+        setNumDebts={numDebts => this.setState({ numDebts: numDebts })}
+        setNumCredits={numCredits => this.setState({ numCredits: numCredits })}
         buildDebtMapTable={this.buildDebtMapTable}
         buildDebtsTable={this.buildDebtsTable}
         buildCreditsTable={this.buildCreditsTable}

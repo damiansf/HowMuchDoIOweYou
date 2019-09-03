@@ -28,7 +28,9 @@ export const DisplayDebts = ({
   allCreditsTotal,
   allCreditsData,
   setTotalCreditsAmount,
-  buildCreditsTable
+  buildCreditsTable,
+  setNumDebts,
+  setNumCredits
 }) => (
   <div>
     <form>
@@ -60,8 +62,6 @@ export const DisplayDebts = ({
                   (prev, curr) => prev + curr.amount,
                   0
                 ) * -1;
-              setTotalDebtMapAmount(amount);
-              setDebtMapData(data);
             }
           } else {
             if (debtList.includes(slaveEmail + ownerEmail)) {
@@ -70,10 +70,10 @@ export const DisplayDebts = ({
                 (prev, curr) => prev + curr.amount,
                 0
               );
-              setTotalDebtMapAmount(amount);
-              setDebtMapData(data);
             }
           }
+          setTotalDebtMapAmount(amount);
+          setDebtMapData(data);
         }}
       />
     </form>
@@ -106,6 +106,7 @@ export const DisplayDebts = ({
           let data = [];
           let amount = 0;
           let currAmount = 0;
+          let countDebts = 0;
           emails.forEach(email => {
             if (singleSlaveEmail.localeCompare(email) < 0) {
               if (debtList.includes(singleSlaveEmail + email)) {
@@ -114,6 +115,7 @@ export const DisplayDebts = ({
                   0
                 );
                 amount += currAmount;
+                countDebts++;
                 data.push(buildDebtsTable(email, singleSlaveEmail, currAmount));
               }
             } else {
@@ -124,10 +126,12 @@ export const DisplayDebts = ({
                     0
                   ) * -1;
                 amount += currAmount;
+                countDebts++;
                 data.push(buildDebtsTable(email, singleSlaveEmail, currAmount));
               }
             }
           });
+          setNumDebts(countDebts);
           if (amount > 0) {
             setTotalDebtsAmount(amount);
             setDebtsData(data);
@@ -166,6 +170,7 @@ export const DisplayDebts = ({
           let data = [];
           let amount = 0;
           let currAmount = 0;
+          let countCredits = 0;
           emails.forEach(email => {
             if (singleOwnerEmail.localeCompare(email) < 0) {
               if (debtList.includes(singleOwnerEmail + email)) {
@@ -175,6 +180,7 @@ export const DisplayDebts = ({
                     0
                   ) * -1;
                 amount += currAmount;
+                countCredits++;
                 data.push(
                   buildCreditsTable(singleOwnerEmail, email, currAmount)
                 );
@@ -186,12 +192,14 @@ export const DisplayDebts = ({
                   0
                 );
                 amount += currAmount;
+                countCredits++;
                 data.push(
                   buildCreditsTable(singleOwnerEmail, email, currAmount)
                 );
               }
             }
           });
+          setNumCredits(countCredits);
           if (amount > 0) {
             setTotalCreditsAmount(amount);
             setCreditsData(data);

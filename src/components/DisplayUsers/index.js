@@ -6,7 +6,9 @@ export const DisplayUsers = ({
   debtList,
   deleteUser,
   deleteDebtMap,
-  checkForDebtInstance
+  checkForDebtInstance,
+  editUser,
+  orderEmails
 }) => (
   <table>
     <thead>
@@ -26,23 +28,36 @@ export const DisplayUsers = ({
             <td>
               <button
                 onClick={() => {
-                  let userOne,
-                    userTwo = null;
                   emails.forEach(emailTwo => {
-                    if (email.localeCompare() < 0) {
-                      userOne = email;
-                      userTwo = emailTwo;
-                    } else {
-                      userOne = emailTwo;
-                      userTwo = email;
+                    let { userOne, userTwo } = orderEmails(email, emailTwo);
+                    if (checkForDebtInstance(debtList, userOne, userTwo)) {
+                      deleteDebtMap({
+                        ownerEmail: userOne,
+                        slaveEmail: userTwo
+                      });
                     }
                   });
-                  if (checkForDebtInstance(debtList, userOne, userTwo)) {
-                    deleteDebtMap({ ownerEmail: userOne, slaveEmail: userTwo });
-                  }
+
                   deleteUser({ email: email });
                 }}
               />
+              <button
+                onClick={() => {
+                  let editEmail = false;
+                  emails.forEach(emailTwo => {
+                    let { userOne, userTwo } = orderEmails(email, emailTwo);
+                    if (!checkForDebtInstance(debtList, userOne, userTwo)) {
+                      editEmail = true;
+                    } else {
+                      editEmail = false;
+                    }
+                  });
+                  console.log(editEmail);
+                  editUser(email, editEmail);
+                }}
+              >
+                Edit
+              </button>
             </td>
           </tr>
         );

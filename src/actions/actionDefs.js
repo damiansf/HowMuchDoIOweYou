@@ -1,4 +1,5 @@
 import * as actionConst from "./action-constants";
+import { orderEmails } from "../utils";
 
 export function addUser(data) {
   return {
@@ -19,16 +20,7 @@ export function clearData() {
 }
 
 export function deleteDebt(data) {
-  let userOne = "";
-  let userTwo = "";
-
-  if (data.ownerEmail.localeCompare(data.slaveEmail) < 0) {
-    userOne = data.ownerEmail;
-    userTwo = data.slaveEmail;
-  } else {
-    userOne = data.slaveEmail;
-    userTwo = data.ownerEmail;
-  }
+  let { userOne, userTwo } = orderEmails(data.ownerEmail, data.slaveEmail);
 
   return {
     type: actionConst.deleteDebt,
@@ -46,16 +38,7 @@ export function deleteUser(data) {
 }
 
 export function deleteDebtMap(data) {
-  let userOne = "";
-  let userTwo = "";
-
-  if (data.ownerEmail.localeCompare(data.slaveEmail) < 0) {
-    userOne = data.ownerEmail;
-    userTwo = data.slaveEmail;
-  } else {
-    userOne = data.slaveEmail;
-    userTwo = data.ownerEmail;
-  }
+  let { userOne, userTwo } = orderEmails(data.ownerEmail, data.slaveEmail);
 
   return {
     type: actionConst.deleteDebtMap,
