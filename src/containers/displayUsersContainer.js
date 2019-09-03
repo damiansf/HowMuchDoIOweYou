@@ -1,6 +1,6 @@
 import { DisplayUsers } from "../components/DisplayUsers/index";
 import React from "react";
-import { deleteUser, deleteDebtMap } from "../actions/actionDefs";
+import { deleteUser, deleteDebtMap, addUser } from "../actions/actionDefs";
 import { checkForDebtInstance, orderEmails } from "../utils";
 import { connect } from "react-redux";
 import Modal from "react-modal";
@@ -15,6 +15,8 @@ class AddUserContainer extends React.Component {
       modalIsOpen: false,
       firstName: "",
       lastName: "",
+      email: "",
+      oldEmail: "",
       editEmail: false
     };
 
@@ -28,6 +30,8 @@ class AddUserContainer extends React.Component {
       modalIsOpen: true,
       firstName: this.props.users[email].firstName,
       lastName: this.props.users[email].lastName,
+      email: email,
+      oldEmail: email,
       editEmail: editEmail
     });
   }
@@ -37,7 +41,9 @@ class AddUserContainer extends React.Component {
       modalIsOpen: false,
       firstName: "",
       lastName: "",
-      editEmail: false
+      email: "",
+      editEmail: false,
+      oldEmail: ""
     });
   }
 
@@ -46,7 +52,9 @@ class AddUserContainer extends React.Component {
       modalIsOpen: false,
       firstName: "",
       lastName: "",
-      editEmail: false
+      email: "",
+      editEmail: false,
+      oldEmail: ""
     });
   }
 
@@ -62,22 +70,23 @@ class AddUserContainer extends React.Component {
           checkForDebtInstance={checkForDebtInstance}
           editUser={this.editUser}
           orderEmails={orderEmails}
+          modalIsOpen={this.state.modalIsOpen}
+          cancelEdit={this.cancelEdit}
+          editEmail={this.state.editEmail}
+          firstName={this.state.firstName}
+          lastName={this.state.lastName}
+          saveEdit={this.saveEdit}
+          email={this.state.email}
+          handleLastName={event =>
+            this.setState({ lastName: event.target.value })
+          }
+          handleFirstName={event =>
+            this.setState({ firstName: event.target.value })
+          }
+          handleEmail={event => this.setState({ email: event.target.value })}
+          addUser={this.props.addUser}
+          oldEmail={this.state.oldEmail}
         />
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.cancelEdit}
-          contentLabel="Edit User"
-        >
-          <button onClick={this.cancelEdit}>close</button>
-          <span>
-            {this.state.editEmail
-              ? ""
-              : "Note, only the first and last name can be changed for this user as they are involved in debts"}
-          </span>
-          <span>{this.state.firstName}</span>
-          <span>{this.state.lastName}</span>
-          <form />
-        </Modal>
       </div>
     );
   }
@@ -91,7 +100,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   deleteUser: data => dispatch(deleteUser(data)),
-  deleteDebtMap: data => dispatch(deleteDebtMap(data))
+  deleteDebtMap: data => dispatch(deleteDebtMap(data)),
+  addUser: data => dispatch(addUser(data))
 });
 
 export default connect(
