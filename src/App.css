@@ -1,0 +1,39 @@
+p,
+a,
+span,
+label,
+th,
+td,
+h2,
+h3 {
+  color: #ffffff;
+}
+
+.app-title {
+  text-align: center;
+}
+
+.nav {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  padding: 1rem;
+}
+
+.creator-info {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 0.5rem;
+  padding-bottom: 0.2rem;
+}
+
+.app-container {
+  padding: 0.2rem;
+}
+
+.bug {
+  font-size: 0.8rem;
+}
