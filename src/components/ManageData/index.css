@@ -6,7 +6,7 @@
 .download,
 .clear,
 .upload-file {
-  border: 0.1rem solid #ffffff;
+  border: 0.1rem solid #ffffff; 
   border-radius: 1rem;
   display: inline-block;
   width: 10rem;
