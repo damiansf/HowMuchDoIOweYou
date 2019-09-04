@@ -5,8 +5,28 @@ label,
 th,
 td,
 h2,
-h3 {
+h3,
+input {
   color: #ffffff;
+}
+
+a:hover {
+  border-bottom-color: #747474;
+}
+
+.non-selected-link {
+  color: #747474;
+  font-weight: bold;
+  border-bottom: 0.1rem solid transparent;
+  text-decoration: none;
+  padding: 2rem;
+  padding-bottom: 0.2rem;
+  text-decoration: none;
+}
+
+.selected {
+  color: #ffffff !important;
+  border-bottom-color: #fff;
 }
 
 .app-title {
@@ -15,11 +35,6 @@ h3 {
 
 .nav {
   text-align: center;
-}
-
-a {
-  text-decoration: none;
-  padding: 1rem;
 }
 
 .creator-info {

@@ -3,7 +3,7 @@ import ManageDataContainer from "./containers/manageDataContainer";
 import ManageUsersContainer from "./containers/manageUsersContainer";
 import ManageDebtsContainer from "./containers/manageDebtsContainer";
 import HomePageContainer from "./containers/homePageContainer";
-import { HashRouter, Route, Link, Switch } from "react-router-dom";
+import { HashRouter, Route, NavLink, Switch } from "react-router-dom";
 import "./App.css";
 
 export default class App extends React.Component {
@@ -14,13 +14,41 @@ export default class App extends React.Component {
         <HashRouter basename="/">
           <div>
             <div className="nav">
-              <Link to="/">Home</Link>
+              <NavLink
+                className="non-selected-link"
+                activeClassName="selected"
+                exact
+                to="/"
+              >
+                Home
+              </NavLink>
 
-              <Link to="/manageUsers">Manage Users</Link>
+              <NavLink
+                className="non-selected-link"
+                activeClassName="selected"
+                exact
+                to="/manageUsers"
+              >
+                Manage Users
+              </NavLink>
 
-              <Link to="/manageDebts">Manage Debts</Link>
+              <NavLink
+                className="non-selected-link"
+                activeClassName="selected"
+                exact
+                to="/manageDebts"
+              >
+                Manage Debts
+              </NavLink>
 
-              <Link to="/manageData">Manage Data</Link>
+              <NavLink
+                className="non-selected-link"
+                activeClassName="selected"
+                exact
+                to="/manageData"
+              >
+                Manage Data
+              </NavLink>
             </div>
             <Switch>
               <Route path="/manageDebts" component={ManageDebtsContainer} />

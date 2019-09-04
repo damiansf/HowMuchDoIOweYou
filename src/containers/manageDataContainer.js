@@ -67,6 +67,7 @@ class ManageDataContainer extends React.Component {
               });
             }
           });
+          alert("Data Uploaded");
         } catch (error) {
           alert("Error parsing json: " + error);
         }

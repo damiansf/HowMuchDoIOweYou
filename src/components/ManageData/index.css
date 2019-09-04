@@ -1,0 +1,34 @@
+.manage-data-container {
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.download,
+.clear,
+.upload-file {
+  border: 0.1rem solid #ffffff;
+  border-radius: 1rem;
+  display: inline-block;
+  width: 10rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  cursor: pointer;
+}
+
+.upload-button {
+  width: 0.01rem;
+  height: 0.01rem;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.download-link {
+  text-decoration: none;
+}
+
+.data-title {
+  padding-top: 1rem;
+  text-align: center;
+}
