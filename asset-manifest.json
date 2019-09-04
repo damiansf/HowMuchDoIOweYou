@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.js": "/HowMuchDoIOweYou/static/js/main.e55c7844.chunk.js",
-    "main.js.map": "/HowMuchDoIOweYou/static/js/main.e55c7844.chunk.js.map",
+    "main.css": "/HowMuchDoIOweYou/static/css/main.3a695f12.chunk.css",
+    "main.js": "/HowMuchDoIOweYou/static/js/main.b36057c0.chunk.js",
+    "main.js.map": "/HowMuchDoIOweYou/static/js/main.b36057c0.chunk.js.map",
     "runtime~main.js": "/HowMuchDoIOweYou/static/js/runtime~main.a16422a2.js",
     "runtime~main.js.map": "/HowMuchDoIOweYou/static/js/runtime~main.a16422a2.js.map",
-    "static/js/2.a5362213.chunk.js": "/HowMuchDoIOweYou/static/js/2.a5362213.chunk.js",
-    "static/js/2.a5362213.chunk.js.map": "/HowMuchDoIOweYou/static/js/2.a5362213.chunk.js.map",
+    "static/js/2.4125fd9a.chunk.js": "/HowMuchDoIOweYou/static/js/2.4125fd9a.chunk.js",
+    "static/js/2.4125fd9a.chunk.js.map": "/HowMuchDoIOweYou/static/js/2.4125fd9a.chunk.js.map",
     "index.html": "/HowMuchDoIOweYou/index.html",
-    "precache-manifest.30c063fc4443e99fbadfa6cf1b869a57.js": "/HowMuchDoIOweYou/precache-manifest.30c063fc4443e99fbadfa6cf1b869a57.js",
-    "service-worker.js": "/HowMuchDoIOweYou/service-worker.js"
+    "precache-manifest.32697c29dbf98fec81024ac963a4b369.js": "/HowMuchDoIOweYou/precache-manifest.32697c29dbf98fec81024ac963a4b369.js",
+    "service-worker.js": "/HowMuchDoIOweYou/service-worker.js",
+    "static/css/main.3a695f12.chunk.css.map": "/HowMuchDoIOweYou/static/css/main.3a695f12.chunk.css.map"
   }
 }
