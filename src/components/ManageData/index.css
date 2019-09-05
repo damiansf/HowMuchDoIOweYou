@@ -13,6 +13,11 @@
   padding: 0.5rem;
   margin: 0.5rem;
   cursor: pointer;
+  outline: none;
+}
+
+span:hover, label:hover {
+  background-color: #232323;
 }
 
 .upload-button {

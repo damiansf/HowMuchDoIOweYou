@@ -11,11 +11,11 @@ export const ManageData = ({ clearData, uploadData, data }) => (
     </div>
     <div className="manage-data-container">
       <div>
-        <div className="download">
+        <label className="download">
           <a href={data} download={"data.json"} className="download-link">
             <FontAwesomeIcon icon={faDownload} /> Download All Data
           </a>
-        </div>
+        </label>
         <input
           type="file"
           title="Upload Data"
@@ -30,8 +30,11 @@ export const ManageData = ({ clearData, uploadData, data }) => (
         </label>
         <span
           onClick={() => {
-            clearData();
-            alert("Data Cleared");
+            let response = window.confirm("Are you sure you want to wipe all data?");
+            if (response) {
+              clearData();
+              alert("Data Cleared");
+            }
           }}
           className="clear"
         >

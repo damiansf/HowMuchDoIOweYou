@@ -14,6 +14,10 @@ a:hover {
   border-bottom-color: #747474;
 }
 
+.main-content-wrapper {
+  overflow: scroll;
+}
+
 .non-selected-link {
   color: #747474;
   font-weight: bold;
@@ -37,18 +41,6 @@ a:hover {
   text-align: center;
 }
 
-.creator-info {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-right: 0.5rem;
-  padding-bottom: 0.2rem;
-}
-
 .app-container {
   padding: 0.2rem;
-}
-
-.bug {
-  font-size: 0.8rem;
 }

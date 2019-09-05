@@ -1,0 +1,42 @@
+.display-user-container {
+  text-align: center;
+}
+
+.users-table {
+  margin: 0 auto;
+}
+
+th,
+td {
+  text-align: center;
+  padding-right: 1rem;
+  width: 20rem;
+}
+
+.current-user-title {
+  padding-top: 1rem;
+}
+
+.modal-style {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background-color: #747474;
+  outline: none;
+  text-align: center;
+}
+
+.edit-button,
+.delete-button {
+  border: 0.1rem solid #ffffff;
+  border-radius: 1rem;
+  display: inline-block;
+  width: 5rem;
+  padding: 0.1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  height: 1rem;
+  text-align: center;
+}

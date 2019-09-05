@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
+import "./index.css";
 
 export const DisplayUsers = ({
   users,
@@ -24,133 +25,167 @@ export const DisplayUsers = ({
   oldEmail
 }) => (
   <div>
-    <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={cancelEdit}
-      contentLabel="Edit User"
-    >
-      <span>
-        {editEmail
-          ? ""
-          : "Note, only the first and last name can be changed for this user as they are involved in debts"}
-      </span>
-      <form>
-        <label>
-          FirstName:
+    <div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={cancelEdit}
+        contentLabel="Edit User"
+        className="modal-style"
+      >
+        <form>
+          <div>
+            <div>
+              <h3>FirstName</h3>
+            </div>
+            <input
+              type="text"
+              name="firstName"
+              value={firstName}
+              autoComplete="new-password"
+              className="input-boxes"
+              onChange={e => handleFirstName(e)}
+            />
+            <div>
+              <h3>LastName</h3>
+            </div>
+            <input
+              type="text"
+              name="lastName"
+              value={lastName}
+              autoComplete="new-password"
+              className="input-boxes"
+              onChange={e => handleLastName(e)}
+            />
+          </div>
+          <div>
+            <div>
+              <h3>Email</h3>
+            </div>
+            <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={e => handleEmail(e)}
+              className="input-boxes"
+              disabled={editEmail ? "" : "disabled"}
+            />
+          </div>
           <input
-            type="text"
-            name="firstName"
-            value={firstName}
-            onChange={e => handleFirstName(e)}
-          />
-        </label>
-        <label>
-          LastName:
-          <input
-            type="text"
-            name="lastName"
-            value={lastName}
-            onChange={e => handleLastName(e)}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="text"
-            name="email"
-            value={email}
-            onChange={e => handleEmail(e)}
-            disabled={editEmail ? "" : "disabled"}
-          />
-        </label>
-        <input
-          type="button"
-          value="Save"
-          onClick={() => {
-            if (editEmail) {
-              if (!emails.includes(email)) {
-                deleteUser({ email: oldEmail });
+            type="button"
+            value="Save"
+            className="submit-button"
+            onClick={() => {
+              if (editEmail) {
+                if (!emails.includes(email)) {
+                  deleteUser({ email: oldEmail });
+                  addUser({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email
+                  });
+                  saveEdit();
+                } else {
+                  alert("User with same email already exists");
+                }
+              } else {
+                deleteUser({ email: email });
                 addUser({
                   firstName: firstName,
                   lastName: lastName,
                   email: email
                 });
                 saveEdit();
-              } else {
-                alert("User with same email already exists");
               }
-            } else {
-              deleteUser({ email: email });
-              addUser({
-                firstName: firstName,
-                lastName: lastName,
-                email: email
-              });
-              saveEdit();
-            }
-          }}
-        />
-        <input
-          type="button"
-          value="Cancel"
-          onClick={() => {
-            cancelEdit();
-          }}
-        />
-      </form>
-    </Modal>
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {emails.map(email => {
-          return (
-            <tr key={users[email].email}>
-              <td>{users[email].firstName}</td>
-              <td>{users[email].lastName}</td>
-              <td>{users[email].email}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    emails.forEach(emailTwo => {
-                      let { userOne, userTwo } = orderEmails(email, emailTwo);
-                      if (checkForDebtInstance(debtList, userOne, userTwo)) {
-                        deleteDebtMap({
-                          ownerEmail: userOne,
-                          slaveEmail: userTwo
+            }}
+          />
+          <input
+            type="button"
+            value="Cancel"
+            className="submit-button"
+            onClick={() => {
+              cancelEdit();
+            }}
+          />
+        </form>
+      </Modal>
+    </div>
+    <div className="display-user-container">
+      <h2 className="current-user-title">Current Users</h2>
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          {emails.map(email => {
+            return (
+              <tr key={users[email].email}>
+                <td>{users[email].firstName}</td>
+                <td>{users[email].lastName}</td>
+                <td>{users[email].email}</td>
+                <td>
+                  <span
+                    className="delete-button"
+                    onClick={() => {
+                      let response = window.confirm(
+                        "Are you sure you want to delete this user?"
+                      );
+                      if (response) {
+                        emails.forEach(emailTwo => {
+                          let { userOne, userTwo } = orderEmails(
+                            email,
+                            emailTwo
+                          );
+                          if (
+                            checkForDebtInstance(debtList, userOne, userTwo)
+                          ) {
+                            deleteDebtMap({
+                              ownerEmail: userOne,
+                              slaveEmail: userTwo
+                            });
+                          }
                         });
-                      }
-                    });
 
-                    deleteUser({ email: email });
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    let editEmail = false;
-                    emails.forEach(emailTwo => {
-                      let { userOne, userTwo } = orderEmails(email, emailTwo);
-                      if (!checkForDebtInstance(debtList, userOne, userTwo)) {
-                        editEmail = true;
-                      } else {
-                        editEmail = false;
+                        deleteUser({ email: email });
                       }
-                    });
-                    editUser(email, editEmail);
-                  }}
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                    }}
+                  >
+                    Delete
+                  </span>
+                  <span
+                    className="edit-button"
+                    onClick={() => {
+                      let editEmail = false;
+                      emails.forEach(emailTwo => {
+                        let { userOne, userTwo } = orderEmails(email, emailTwo);
+                        if (!checkForDebtInstance(debtList, userOne, userTwo)) {
+                          editEmail = true;
+                        } else {
+                          editEmail = false;
+                        }
+                      });
+                      editUser(email, editEmail);
+                      if (!editEmail) {
+                        setTimeout(() => {
+                          alert(
+                            "Note, only the first and last name can be changed for this user as they are involved in existing debts"
+                          );
+                        }, 100);
+                      }
+                    }}
+                  >
+                    Edit
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   </div>
 );

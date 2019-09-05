@@ -100,7 +100,8 @@ class ManageDataContainer extends React.Component {
         />
       );
     } else {
-      return <span>File API's not available</span>;
+      alert("File API's are not available");
+      return(<div></div>);
     }
   }
 }
