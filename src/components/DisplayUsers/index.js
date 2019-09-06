@@ -109,8 +109,8 @@ export const DisplayUsers = ({
         </form>
       </Modal>
     </div>
-    <div className="display-user-container">
-      <h2 className="current-user-title">Current Users</h2>
+    <div className="containers">
+      <h2 className="titles">Current Users</h2>
       <table className="users-table">
         <thead>
           <tr>
@@ -129,7 +129,7 @@ export const DisplayUsers = ({
                 <td>{users[email].email}</td>
                 <td>
                   <span
-                    className="delete-button"
+                    className="table-button"
                     onClick={() => {
                       let response = window.confirm(
                         "Are you sure you want to delete this user?"
@@ -157,7 +157,7 @@ export const DisplayUsers = ({
                     Delete
                   </span>
                   <span
-                    className="edit-button"
+                    className="table-button"
                     onClick={() => {
                       let editEmail = false;
                       emails.forEach(emailTwo => {

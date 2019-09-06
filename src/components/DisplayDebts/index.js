@@ -51,6 +51,7 @@ export const DisplayDebts = ({
       <input
         type="button"
         value="Submit"
+        className="submit-button"
         onClick={() => {
           let data = null;
           let amount = 0;
@@ -102,6 +103,7 @@ export const DisplayDebts = ({
       <input
         type="button"
         value="Submit"
+        className="submit-button"
         onClick={() => {
           let data = [];
           let amount = 0;
@@ -166,6 +168,7 @@ export const DisplayDebts = ({
       <input
         type="button"
         value="Submit"
+        className="submit-button"
         onClick={() => {
           let data = [];
           let amount = 0;

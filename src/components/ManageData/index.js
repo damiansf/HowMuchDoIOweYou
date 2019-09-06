@@ -6,10 +6,8 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 export const ManageData = ({ clearData, uploadData, data }) => (
   <div>
-    <div className="data-title">
-      <h2>Data, Data Everywhere!</h2>
-    </div>
-    <div className="manage-data-container">
+    <div className="containers">
+      <h2 className="titles" >Data, Data Everywhere!</h2>
       <div>
         <label className="download">
           <a href={data} download={"data.json"} className="download-link">
@@ -30,7 +28,9 @@ export const ManageData = ({ clearData, uploadData, data }) => (
         </label>
         <span
           onClick={() => {
-            let response = window.confirm("Are you sure you want to wipe all data?");
+            let response = window.confirm(
+              "Are you sure you want to wipe all data?"
+            );
             if (response) {
               clearData();
               alert("Data Cleared");

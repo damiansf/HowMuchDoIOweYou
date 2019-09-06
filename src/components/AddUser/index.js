@@ -1,5 +1,4 @@
 import React from "react";
-import "./index.css";
 
 export const AddUser = ({
   handleFirstName,
@@ -11,8 +10,8 @@ export const AddUser = ({
   lastName,
   email
 }) => (
-  <div className="add-user-container">
-    <h2 className="create-title">Create User</h2>
+  <div className="containers">
+    <h2 className="titles">Create User</h2>
     <form>
       <div>
         <div>

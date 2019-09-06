@@ -1,8 +1,3 @@
-.manage-data-container {
-  padding-top: 1rem;
-  text-align: center;
-}
-
 .download,
 .clear,
 .upload-file {
@@ -31,9 +26,4 @@ span:hover, label:hover {
 
 .download-link {
   text-decoration: none;
-}
-
-.data-title {
-  padding-top: 1rem;
-  text-align: center;
 }

@@ -1,7 +1,3 @@
-.display-user-container {
-  text-align: center;
-}
-
 .users-table {
   margin: 0 auto;
 }
@@ -13,10 +9,6 @@ td {
   width: 20rem;
 }
 
-.current-user-title {
-  padding-top: 1rem;
-}
-
 .modal-style {
   top: 50%;
   left: 50%;
@@ -24,19 +16,5 @@ td {
   position: absolute;
   background-color: #747474;
   outline: none;
-  text-align: center;
-}
-
-.edit-button,
-.delete-button {
-  border: 0.1rem solid #ffffff;
-  border-radius: 1rem;
-  display: inline-block;
-  width: 5rem;
-  padding: 0.1rem;
-  margin: 0.5rem;
-  cursor: pointer;
-  outline: none;
-  height: 1rem;
   text-align: center;
 }
