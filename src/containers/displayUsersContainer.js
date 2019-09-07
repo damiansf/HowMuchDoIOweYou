@@ -7,6 +7,18 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
+const noUsers = <h3>No Users</h3>;
+const tableHead = (
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Manage</th>
+    </tr>
+  </thead>
+);
+
 class AddUserContainer extends React.Component {
   constructor() {
     super();
@@ -86,6 +98,8 @@ class AddUserContainer extends React.Component {
           handleEmail={event => this.setState({ email: event.target.value })}
           addUser={this.props.addUser}
           oldEmail={this.state.oldEmail}
+          tableHead={this.props.emails.length > 0 ? tableHead : null}
+          noUsers={this.props.emails.length > 0 ? null : noUsers}
         />
       </div>
     );

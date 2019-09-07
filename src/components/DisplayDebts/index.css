@@ -1,0 +1,27 @@
+.select-box-data {
+  background-color: #474747;
+  color: #ffffff;
+  outline: none;
+  height: 2rem;
+  font-size: 1.17em;
+  width: 20rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-right: 2rem;
+}
+
+.no-outstanding {
+  margin-top: 0rem;
+}
+
+.horizontal-submit {
+  margin-top: 0rem !important;
+}
+
+.debt-map-name-cell {
+  width: 30%;
+}
+
+.notes-cell {
+  width: 20%;
+}

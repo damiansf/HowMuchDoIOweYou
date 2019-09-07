@@ -56,6 +56,15 @@ a:hover {
   font-size: 1rem;
 }
 
+th,
+td {
+  text-align: center;
+  padding-right: 1rem;
+  width: 20rem;
+  height: 1rem;
+  padding-top: 1rem;
+}
+
 .submit-button {
   border: 0.1rem solid #ffffff;
   border-radius: 1rem;
@@ -93,16 +102,5 @@ input[type="button"]:hover {
   cursor: pointer;
   outline: none;
   height: 1rem;
-  text-align: center;
-}
-
-.select-box {
-  background-color: #474747;
-  color: #ffffff;
-  outline: none;
-  height: 2rem;
-  font-size: 1.17em;
-  width: 20rem;
-  margin-bottom: 2rem;
   text-align: center;
 }

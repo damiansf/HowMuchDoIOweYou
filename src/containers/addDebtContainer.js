@@ -10,8 +10,8 @@ class AddDebtContainer extends React.Component {
     this.state = {
       amount: "",
       notes: "",
-      emailOne: "",
-      emailTwo: ""
+      ownerEmail: "Select the Creditor",
+      slaveEmail: "Select the Debitor"
     };
   }
 
@@ -22,14 +22,14 @@ class AddDebtContainer extends React.Component {
         users={this.props.users}
         notes={this.state.notes}
         amount={this.state.amount}
-        emailOne={this.state.emailOne}
-        emailTwo={this.state.emailTwo}
+        ownerEmail={this.state.ownerEmail}
+        slaveEmail={this.state.slaveEmail}
         addDebt={this.props.addDebt}
         handleOwnerEmail={event =>
-          this.setState({ emailOne: event.target.value })
+          this.setState({ ownerEmail: event.target.value })
         }
         handleSlaveEmail={event =>
-          this.setState({ emailTwo: event.target.value })
+          this.setState({ slaveEmail: event.target.value })
         }
         handleNotes={event => this.setState({ notes: event.target.value })}
         handleAmount={event => {

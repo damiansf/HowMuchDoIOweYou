@@ -29,3 +29,7 @@ export function getIdentifier(email, user) {
     </option>
   );
 }
+
+export function getIdentifierString(email, user) {
+  return user.firstName + " " + user.lastName + " (" + email + ")";
+}

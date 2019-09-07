@@ -15,8 +15,8 @@ export const AddDebt = ({
   handleAmount,
   amount,
   notes,
-  emailOne,
-  emailTwo
+  ownerEmail,
+  slaveEmail
 }) => (
   <div className="containers">
     <h2 className="titles">Add Debt</h2>
@@ -25,12 +25,10 @@ export const AddDebt = ({
         <select
           className="select-box"
           onChange={e => {
-            if (e.target.value !== defaultDebitor) {
-              handleOwnerEmail(e);
-            }
+            handleOwnerEmail(e);
           }}
         >
-          <option>Select the Creditor</option>
+          <option>{defaultCreditor}</option>
           {emails.map(email => {
             return getIdentifier(email, users[email]);
           })}
@@ -40,12 +38,10 @@ export const AddDebt = ({
         <select
           className="select-box select-debitor"
           onChange={e => {
-            if (e.target.value !== defaultCreditor) {
-              handleSlaveEmail(e);
-            }
+            handleSlaveEmail(e);
           }}
         >
-          <option>Select the Debitor</option>
+          <option>{defaultDebitor}</option>
           {emails.map(email => {
             return getIdentifier(email, users[email]);
           })}
@@ -75,16 +71,23 @@ export const AddDebt = ({
           value="Submit"
           className="submit-button"
           onClick={() => {
-            if (!emailTwo) {
-              alert("Second email either null or the same");
+            if (
+              ownerEmail !== defaultCreditor &&
+              slaveEmail !== defaultDebitor
+            ) {
+              if (slaveEmail === ownerEmail) {
+                alert("Debitor email cannot be the same as the Creditor email");
+              } else {
+                addDebt({
+                  userOne: ownerEmail,
+                  userTwo: slaveEmail,
+                  amount: amount,
+                  notes: notes
+                });
+                alert("Debt record added");
+              }
             } else {
-              addDebt({
-                userOne: emailOne ? emailOne : emails[0],
-                userTwo: emailTwo,
-                amount: amount,
-                notes: notes
-              });
-              alert("User Debt added");
+              alert("Please select a debitor email and a creditor email");
             }
           }}
         />

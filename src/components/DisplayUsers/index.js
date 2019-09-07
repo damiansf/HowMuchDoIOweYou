@@ -22,7 +22,9 @@ export const DisplayUsers = ({
   handleFirstName,
   handleEmail,
   addUser,
-  oldEmail
+  oldEmail,
+  tableHead,
+  noUsers
 }) => (
   <div>
     <div>
@@ -111,15 +113,9 @@ export const DisplayUsers = ({
     </div>
     <div className="containers">
       <h2 className="titles">Current Users</h2>
+      {noUsers}
       <table className="users-table">
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Manage</th>
-          </tr>
-        </thead>
+        {tableHead}
         <tbody>
           {emails.map(email => {
             return (
