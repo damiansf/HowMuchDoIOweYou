@@ -155,15 +155,14 @@ export const DisplayUsers = ({
                   <span
                     className="table-button"
                     onClick={() => {
-                      let editEmail = false;
+                      let editEmail = true;
                       emails.forEach(emailTwo => {
                         let { userOne, userTwo } = orderEmails(email, emailTwo);
-                        if (!checkForDebtInstance(debtList, userOne, userTwo)) {
-                          editEmail = true;
-                        } else {
+                        if (checkForDebtInstance(debtList, userOne, userTwo)) {
                           editEmail = false;
                         }
                       });
+                      console.log(editEmail);
                       editUser(email, editEmail);
                       if (!editEmail) {
                         setTimeout(() => {
