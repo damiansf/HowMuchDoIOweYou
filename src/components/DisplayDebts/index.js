@@ -298,7 +298,7 @@ export const DisplayDebts = ({
         ? null
         : "People owe you " +
           allCreditsTotal +
-          "$ maybe consider charging interest"}
+          "$, maybe consider charging interest"}
     </h3>
   </div>
 );
