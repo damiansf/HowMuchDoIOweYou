@@ -16,7 +16,8 @@ export const AddDebt = ({
   amount,
   notes,
   ownerEmail,
-  slaveEmail
+  slaveEmail,
+  debtChangeCounter
 }) => (
   <div className="containers">
     <h2 className="titles">Add Debt</h2>
@@ -84,6 +85,7 @@ export const AddDebt = ({
                   amount: amount,
                   notes: notes
                 });
+                debtChangeCounter();
                 alert("Debt record added");
               }
             } else {

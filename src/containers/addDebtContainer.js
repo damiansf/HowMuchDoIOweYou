@@ -37,6 +37,7 @@ class AddDebtContainer extends React.Component {
             this.setState({ amount: event.target.value });
           }
         }}
+        debtChangeCounter={this.props.debtChangeCounter}
       />
     );
   }
