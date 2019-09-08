@@ -78,7 +78,7 @@ export const DisplayUsers = ({
             className="submit-button"
             onClick={() => {
               if (editEmail) {
-                if (!emails.includes(email)) {
+                if (!emails.includes(email) || editEmail === oldEmail) {
                   deleteUser({ email: oldEmail });
                   addUser({
                     firstName: firstName,
