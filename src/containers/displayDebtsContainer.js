@@ -12,7 +12,7 @@ const debtMapTableHead = (
       <th className="name-cell">Creditor</th>
       <th>Amount</th>
       <th className="notes-cell">Notes</th>
-      <th>Delete Debt</th>
+      <th>Delete Entry</th>
     </tr>
   </thead>
 );
@@ -36,7 +36,7 @@ const creditTableHead = (
       <th className="name-cell">Creditor</th>
       <th className="name-cell">Debitor</th>
       <th>Total Amount</th>
-      <th>Delete Debt</th>
+      <th>Delete Credi</th>
     </tr>
   </thead>
 );
@@ -113,7 +113,15 @@ class DisplayDebtsContainer extends React.Component {
         allCreditsData: data,
         allCreditsTotal: amount,
         numCredits: countCredits,
-        creditsArray: creditsArray
+        creditsArray: creditsArray,
+        debtMapData: null,
+        debtMapTotal: 0,
+        noTransactionsExisting: false,
+        allDebtsData: null,
+        allDebtsTotal: 0,
+        noDebtsExisiting: false,
+        numDebts: 0,
+        debtsArray: []
       });
     } else {
       this.setState({
@@ -121,7 +129,15 @@ class DisplayDebtsContainer extends React.Component {
         allCreditsData: null,
         allCreditsTotal: 0,
         numCredits: countCredits,
-        creditsArray: []
+        creditsArray: [],
+        debtMapData: null,
+        debtMapTotal: 0,
+        noTransactionsExisting: false,
+        allDebtsData: null,
+        allDebtsTotal: 0,
+        noDebtsExisiting: false,
+        numDebts: 0,
+        debtsArray: []
       });
     }
   }
@@ -163,7 +179,15 @@ class DisplayDebtsContainer extends React.Component {
         allDebtsTotal: amount,
         allDebtsData: data,
         numDebts: countDebts,
-        debtsArray: debtsArray
+        debtsArray: debtsArray,
+        debtMapData: null,
+        debtMapTotal: 0,
+        noTransactionsExisting: false,
+        allCreditsData: null,
+        allCreditsTotal: 0,
+        noCreditsExisting: false,
+        numCredits: 0,
+        creditsArray: []
       });
     } else {
       this.setState({
@@ -171,7 +195,15 @@ class DisplayDebtsContainer extends React.Component {
         allDebtsTotal: 0,
         allDebtsData: null,
         numDebts: countDebts,
-        debtsArray: []
+        debtsArray: [],
+        debtMapData: null,
+        debtMapTotal: 0,
+        noTransactionsExisting: false,
+        allCreditsData: null,
+        allCreditsTotal: 0,
+        noCreditsExisting: false,
+        numCredits: 0,
+        creditsArray: []
       });
     }
   }
@@ -297,6 +329,18 @@ class DisplayDebtsContainer extends React.Component {
   }
 
   buildDebtMapTable(data, identifierOrder) {
+    this.setState({
+      allCreditsData: null,
+      allCreditsTotal: 0,
+      noCreditsExisting: false,
+      numCredits: 0,
+      creditsArray: [],
+      allDebtsData: null,
+      allDebtsTotal: 0,
+      noDebtsExisiting: false,
+      numDebts: 0,
+      debtsArray: []
+    });
     return data.debts.map((debt, index) => {
       return (
         <tr key={index}>
