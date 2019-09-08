@@ -48,7 +48,7 @@ export const AddDebt = ({
         </select>
       </div>
 
-      <h3>Amount</h3>
+      <h3>Amount ($)</h3>
       <input
         type="text"
         name="amount"

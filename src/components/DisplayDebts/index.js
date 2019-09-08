@@ -4,6 +4,8 @@ import "./index.css";
 
 const defaultDebitor = "Select First User";
 const defaultCreditor = "Select Second User";
+const defaultSingleDebitor = "Select a Debitor";
+const defaultSingleCreditor = "Select a Creditor";
 
 export const DisplayDebts = ({
   handleOwnerEmail,
@@ -37,8 +39,16 @@ export const DisplayDebts = ({
   setNumCredits,
   noTransactions,
   debtMapTableHead,
-  setTransactionExisting,
-  noTransactionsExisting
+  setNoTransactionExisting,
+  noTransactionsExisting,
+  noDebtsExisiting,
+  noDebts,
+  noCreditsExisting,
+  noCredits,
+  debtTableHead,
+  creditTableHead,
+  setNoDebtsExisiting,
+  setNoCreditsExisting
 }) => (
   <div className="containers">
     <h2 className="titles">View Debts/Credits Between 2 Users</h2>
@@ -88,7 +98,7 @@ export const DisplayDebts = ({
                       0
                     ) * -1;
                 } else {
-                  setTransactionExisting(true);
+                  setNoTransactionExisting(true);
                 }
               } else {
                 if (debtList.includes(slaveEmail + ownerEmail)) {
@@ -98,7 +108,7 @@ export const DisplayDebts = ({
                     0
                   );
                 } else {
-                  setTransactionExisting(true);
+                  setNoTransactionExisting(true);
                 }
               }
               setTotalDebtMapAmount(amount);
@@ -136,9 +146,11 @@ export const DisplayDebts = ({
     </h3>
     <h2 className="titles">View Users Debts</h2>
     <form>
-      <span>slave</span>
-      <select onChange={e => handleSingleSlaveEmail(e)}>
-        <option>--</option>
+      <select
+        className="select-box-data"
+        onChange={e => handleSingleSlaveEmail(e)}
+      >
+        <option>{defaultSingleDebitor}</option>
         {emails.map(email => {
           return getIdentifier(email, users[email]);
         })}
@@ -146,64 +158,76 @@ export const DisplayDebts = ({
       <input
         type="button"
         value="Submit"
-        className="submit-button"
+        className="submit-button horizontal-submit"
         onClick={() => {
           let data = [];
           let amount = 0;
           let currAmount = 0;
           let countDebts = 0;
-          emails.forEach(email => {
-            if (singleSlaveEmail.localeCompare(email) < 0) {
-              if (debtList.includes(singleSlaveEmail + email)) {
-                currAmount = debtMap[singleSlaveEmail + email].debts.reduce(
-                  (prev, curr) => prev + curr.amount,
-                  0
-                );
-                amount += currAmount;
-                countDebts++;
-                data.push(buildDebtsTable(email, singleSlaveEmail, currAmount));
-              }
-            } else {
-              if (debtList.includes(email + singleSlaveEmail)) {
-                currAmount =
-                  debtMap[email + singleSlaveEmail].debts.reduce(
+
+          if (defaultSingleDebitor === singleSlaveEmail) {
+            alert("Please Select a Debitor");
+          } else {
+            emails.forEach(email => {
+              if (singleSlaveEmail.localeCompare(email) < 0) {
+                if (debtList.includes(singleSlaveEmail + email)) {
+                  currAmount = debtMap[singleSlaveEmail + email].debts.reduce(
                     (prev, curr) => prev + curr.amount,
                     0
-                  ) * -1;
-                amount += currAmount;
-                countDebts++;
-                data.push(buildDebtsTable(email, singleSlaveEmail, currAmount));
+                  );
+                  amount += currAmount;
+                  countDebts++;
+                  data.push(
+                    buildDebtsTable(email, singleSlaveEmail, currAmount)
+                  );
+                }
+              } else {
+                if (debtList.includes(email + singleSlaveEmail)) {
+                  currAmount =
+                    debtMap[email + singleSlaveEmail].debts.reduce(
+                      (prev, curr) => prev + curr.amount,
+                      0
+                    ) * -1;
+                  amount += currAmount;
+                  countDebts++;
+                  data.push(
+                    buildDebtsTable(email, singleSlaveEmail, currAmount)
+                  );
+                }
               }
+            });
+            setNumDebts(countDebts);
+            if (amount > 0) {
+              setTotalDebtsAmount(amount);
+              setDebtsData(data);
+            } else {
+              setTotalDebtsAmount(0);
+              setDebtsData(null);
+              setNoDebtsExisiting(true);
             }
-          });
-          setNumDebts(countDebts);
-          if (amount > 0) {
-            setTotalDebtsAmount(amount);
-            setDebtsData(data);
-          } else {
-            setTotalDebtsAmount(0);
-            setDebtsData([]);
           }
         }}
       />
     </form>
+    {noDebts}
     <table className="tables">
-      <thead>
-        <tr>
-          <th>User One</th>
-          <th>User Two</th>
-          <th>Total Amount</th>
-          <th>Delete Debts</th>
-        </tr>
-      </thead>
+      {debtTableHead}
       <tbody>{allDebtsData}</tbody>
     </table>
-    <span>{allDebtsTotal}</span>
+    <h3>
+      {noDebtsExisiting
+        ? null
+        : allDebtsTotal === 0
+        ? null
+        : "You are in debt! you owe a total of: " + allDebtsTotal + "$"}
+    </h3>
     <h2 className="titles">View Users Credits</h2>
     <form>
-      <span>owner</span>
-      <select onChange={e => handleSingleOwnerEmail(e)}>
-        <option>--</option>
+      <select
+        className="select-box-data"
+        onChange={e => handleSingleOwnerEmail(e)}
+      >
+        <option>{defaultSingleCreditor}</option>
         {emails.map(email => {
           return getIdentifier(email, users[email]);
         })}
@@ -211,62 +235,70 @@ export const DisplayDebts = ({
       <input
         type="button"
         value="Submit"
-        className="submit-button"
+        className="submit-button horizontal-submit"
         onClick={() => {
           let data = [];
           let amount = 0;
           let currAmount = 0;
           let countCredits = 0;
-          emails.forEach(email => {
-            if (singleOwnerEmail.localeCompare(email) < 0) {
-              if (debtList.includes(singleOwnerEmail + email)) {
-                currAmount =
-                  debtMap[singleOwnerEmail + email].debts.reduce(
+
+          if (singleOwnerEmail === defaultSingleCreditor) {
+            alert("Please Select a Creditor");
+          } else {
+            emails.forEach(email => {
+              if (singleOwnerEmail.localeCompare(email) < 0) {
+                if (debtList.includes(singleOwnerEmail + email)) {
+                  currAmount =
+                    debtMap[singleOwnerEmail + email].debts.reduce(
+                      (prev, curr) => prev + curr.amount,
+                      0
+                    ) * -1;
+                  amount += currAmount;
+                  countCredits++;
+                  data.push(
+                    buildCreditsTable(singleOwnerEmail, email, currAmount)
+                  );
+                }
+              } else {
+                if (debtList.includes(email + singleOwnerEmail)) {
+                  currAmount = debtMap[email + singleOwnerEmail].debts.reduce(
                     (prev, curr) => prev + curr.amount,
                     0
-                  ) * -1;
-                amount += currAmount;
-                countCredits++;
-                data.push(
-                  buildCreditsTable(singleOwnerEmail, email, currAmount)
-                );
+                  );
+                  amount += currAmount;
+                  countCredits++;
+                  data.push(
+                    buildCreditsTable(singleOwnerEmail, email, currAmount)
+                  );
+                }
               }
+            });
+            setNumCredits(countCredits);
+            if (amount > 0) {
+              setTotalCreditsAmount(amount);
+              setCreditsData(data);
             } else {
-              if (debtList.includes(email + singleOwnerEmail)) {
-                currAmount = debtMap[email + singleOwnerEmail].debts.reduce(
-                  (prev, curr) => prev + curr.amount,
-                  0
-                );
-                amount += currAmount;
-                countCredits++;
-                data.push(
-                  buildCreditsTable(singleOwnerEmail, email, currAmount)
-                );
-              }
+              setTotalCreditsAmount(0);
+              setCreditsData(null);
+              setNoCreditsExisting(true);
             }
-          });
-          setNumCredits(countCredits);
-          if (amount > 0) {
-            setTotalCreditsAmount(amount);
-            setCreditsData(data);
-          } else {
-            setTotalCreditsAmount(0);
-            setCreditsData([]);
           }
         }}
       />
     </form>
+    {noCredits}
     <table className="tables">
-      <thead>
-        <tr>
-          <th>User One</th>
-          <th>User Two</th>
-          <th>Total Amount</th>
-          <th>Delete Debt</th>
-        </tr>
-      </thead>
+      {creditTableHead}
       <tbody>{allCreditsData}</tbody>
     </table>
-    <span>{allCreditsTotal}</span>
+    <h3>
+      {noCreditsExisting
+        ? null
+        : allCreditsTotal === 0
+        ? null
+        : "People owe you " +
+          allCreditsTotal +
+          "$ maybe consider charging interest"}
+    </h3>
   </div>
 );

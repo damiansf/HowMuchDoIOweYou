@@ -4,14 +4,38 @@ import { getIdentifierString } from "../utils";
 import React from "react";
 import { connect } from "react-redux";
 
-const noTransactions = <h3 className="no-outstanding">No Outstanding Debts</h3>;
+const noTransactions = <h3 className="no-outstanding">No Unpaid Debts</h3>;
 const debtMapTableHead = (
   <thead>
     <tr>
-      <th className="debt-map-name-cell">Debitor</th>
-      <th className="debt-map-name-cell">Creditor</th>
+      <th className="name-cell">Debitor</th>
+      <th className="name-cell">Creditor</th>
       <th>Amount</th>
       <th className="notes-cell">Notes</th>
+      <th>Delete Debt</th>
+    </tr>
+  </thead>
+);
+
+const noDebts = <h3 className="no-outstanding">You Don't Owe Anyone Money!</h3>;
+const debtTableHead = (
+  <thead>
+    <tr>
+      <th className="name-cell">Debitor</th>
+      <th className="name-cell">Creditor</th>
+      <th>Total Amount</th>
+      <th>Delete Debts</th>
+    </tr>
+  </thead>
+);
+
+const noCredits = <h3 className="no-outstanding">No One Owes You Money</h3>;
+const creditTableHead = (
+  <thead>
+    <tr>
+      <th className="name-cell">Creditor</th>
+      <th className="name-cell">Debitor</th>
+      <th>Total Amount</th>
       <th>Delete Debt</th>
     </tr>
   </thead>
@@ -29,6 +53,8 @@ class DisplayDebtsContainer extends React.Component {
       debtMapTotal: 0,
       allDebtsData: null,
       noTransactionsExisting: false,
+      noCreditsExisting: false,
+      noDebtsExisiting: false,
       allDebtsTotal: 0,
       singleOwnerEmail: "Select a Creditor",
       allCreditsTotal: 0,
@@ -45,27 +71,37 @@ class DisplayDebtsContainer extends React.Component {
   buildDebtsTable(ownerEmail, slaveEmail, amount) {
     return (
       <tr key={ownerEmail + slaveEmail + amount}>
-        <td>{slaveEmail}</td>
-        <td>{ownerEmail}</td>
-        <td>{amount}</td>
+        <td>{getIdentifierString(slaveEmail, this.props.users[slaveEmail])}</td>
+        <td>{getIdentifierString(ownerEmail, this.props.users[ownerEmail])}</td>
+        <td>{amount + "$"}</td>
         <td>
-          <button
+          <span
+            className="table-button"
             onClick={() => {
-              this.props.deleteDebtMap({
-                ownerEmail: ownerEmail,
-                slaveEmail: slaveEmail
-              });
-              if (this.state.numDebts === 1) {
-                this.setState({
-                  numDebts: 0,
-                  allDebtsData: null,
-                  allDebtsTotal: 0
+              let response = window.confirm(
+                "Are you sure you want to delete this debt record?"
+              );
+
+              if (response) {
+                this.props.deleteDebtMap({
+                  ownerEmail: ownerEmail,
+                  slaveEmail: slaveEmail
                 });
-              } else {
-                this.setState({ numDebts: this.state.numDebts - 1 });
+                if (this.state.numDebts === 1) {
+                  this.setState({
+                    numDebts: 0,
+                    allDebtsData: null,
+                    allDebtsTotal: 0,
+                    noDebtsExisiting: true
+                  });
+                } else {
+                  this.setState({ numDebts: this.state.numDebts - 1 });
+                }
               }
             }}
-          />
+          >
+            Delete
+          </span>
         </td>
       </tr>
     );
@@ -74,27 +110,37 @@ class DisplayDebtsContainer extends React.Component {
   buildCreditsTable(ownerEmail, slaveEmail, amount) {
     return (
       <tr key={ownerEmail + slaveEmail + amount}>
-        <td>{ownerEmail}</td>
-        <td>{slaveEmail}</td>
-        <td>{amount}</td>
+        <td>{getIdentifierString(ownerEmail, this.props.users[ownerEmail])}</td>
+        <td>{getIdentifierString(slaveEmail, this.props.users[slaveEmail])}</td>
+        <td>{amount + "$"}</td>
         <td>
-          <button
+          <span
+            className="table-button"
             onClick={() => {
-              this.props.deleteDebtMap({
-                ownerEmail: ownerEmail,
-                slaveEmail: slaveEmail
-              });
-              if (this.state.numCredits === 1) {
-                this.setState({
-                  numCredits: 0,
-                  allCreditsData: null,
-                  allCreditsTotal: 0
+              let response = window.confirm(
+                "Are you sure you want to delete this credit record?"
+              );
+
+              if (response) {
+                this.props.deleteDebtMap({
+                  ownerEmail: ownerEmail,
+                  slaveEmail: slaveEmail
                 });
-              } else {
-                this.setState({ numCredits: this.state.numCredits - 1 });
+                if (this.state.numCredits === 1) {
+                  this.setState({
+                    numCredits: 0,
+                    allCreditsData: null,
+                    allCreditsTotal: 0,
+                    noCreditsExisting: true
+                  });
+                } else {
+                  this.setState({ numCredits: this.state.numCredits - 1 });
+                }
               }
             }}
-          />
+          >
+            Delete
+          </span>
         </td>
       </tr>
     );
@@ -126,14 +172,14 @@ class DisplayDebtsContainer extends React.Component {
                   this.props.users[debt.userIDOne]
                 )}
           </td>
-          <td>{Math.abs(debt.amount)}</td>
+          <td>{Math.abs(debt.amount) + "$"}</td>
           <td>{debt.notes}</td>
           <td>
             <span
               className="table-button"
               onClick={() => {
                 let response = window.confirm(
-                  "Are you sure you want to delete this debts?"
+                  "Are you sure you want to delete this debt?"
                 );
 
                 if (response) {
@@ -197,10 +243,22 @@ class DisplayDebtsContainer extends React.Component {
           })
         }
         handleSingleSlaveEmail={event =>
-          this.setState({ singleSlaveEmail: event.target.value })
+          this.setState({
+            singleSlaveEmail: event.target.value,
+            allDebtsData: null,
+            allDebtsTotal: 0,
+            noDebtsExisiting: false,
+            numDebts: 0
+          })
         }
         handleSingleOwnerEmail={event =>
-          this.setState({ singleOwnerEmail: event.target.value })
+          this.setState({
+            singleOwnerEmail: event.target.value,
+            allCreditsData: null,
+            allCreditsTotal: 0,
+            noCreditsExisting: false,
+            numCredits: 0
+          })
         }
         setTotalDebtMapAmount={debtMapTotal =>
           this.setState({ debtMapTotal: debtMapTotal })
@@ -222,8 +280,14 @@ class DisplayDebtsContainer extends React.Component {
         }
         setNumDebts={numDebts => this.setState({ numDebts: numDebts })}
         setNumCredits={numCredits => this.setState({ numCredits: numCredits })}
-        setTransactionExisting={noTransactionsExisting =>
+        setNoTransactionExisting={noTransactionsExisting =>
           this.setState({ noTransactionsExisting: noTransactionsExisting })
+        }
+        setNoDebtsExisiting={noDebtsExisiting =>
+          this.setState({ noDebtsExisiting: noDebtsExisiting })
+        }
+        setNoCreditsExisting={noCreditsExisting =>
+          this.setState({ noCreditsExisting: noCreditsExisting })
         }
         buildDebtMapTable={this.buildDebtMapTable}
         buildDebtsTable={this.buildDebtsTable}
@@ -246,7 +310,13 @@ class DisplayDebtsContainer extends React.Component {
         noTransactions={
           this.state.noTransactionsExisting ? noTransactions : null
         }
+        noDebtsExisiting={this.state.noDebtsExisiting}
+        noDebts={this.state.noDebtsExisiting ? noDebts : null}
+        noCreditsExisting={this.state.noCreditsExisting}
+        noCredits={this.state.noCreditsExisting ? noCredits : null}
         debtMapTableHead={this.state.debtMapData ? debtMapTableHead : null}
+        debtTableHead={this.state.allDebtsData ? debtTableHead : null}
+        creditTableHead={this.state.allCreditsData ? creditTableHead : null}
       />
     );
   }
