@@ -162,7 +162,6 @@ export const DisplayUsers = ({
                           editEmail = false;
                         }
                       });
-                      console.log(editEmail);
                       editUser(email, editEmail);
                       if (!editEmail) {
                         setTimeout(() => {

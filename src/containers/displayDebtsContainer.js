@@ -60,12 +60,120 @@ class DisplayDebtsContainer extends React.Component {
       allCreditsTotal: 0,
       allCreditsData: null,
       numDebts: 0,
-      numCredits: 0
+      numCredits: 0,
+      debtsArray: [],
+      creditsArray: []
     };
 
     this.buildDebtMapTable = this.buildDebtMapTable.bind(this);
     this.buildDebtsTable = this.buildDebtsTable.bind(this);
     this.buildCreditsTable = this.buildCreditsTable.bind(this);
+    this.buildCreditsData = this.buildCreditsData.bind(this);
+    this.buildDebtsData = this.buildDebtsData.bind(this);
+  }
+
+  buildCreditsData(singleOwnerEmail) {
+    let data = [];
+    let amount = 0;
+    let currAmount = 0;
+    let countCredits = 0;
+    let creditsArray = [];
+    this.props.emails.forEach(email => {
+      if (singleOwnerEmail.localeCompare(email) < 0) {
+        if (this.props.debtList.includes(singleOwnerEmail + email)) {
+          currAmount =
+            this.props.debtMap[singleOwnerEmail + email].debts.reduce(
+              (prev, curr) => prev + curr.amount,
+              0
+            ) * -1;
+          amount += currAmount;
+          countCredits++;
+          data.push(
+            this.buildCreditsTable(singleOwnerEmail, email, currAmount)
+          );
+          creditsArray.push({ singleOwnerEmail, email, currAmount });
+        }
+      } else {
+        if (this.props.debtList.includes(email + singleOwnerEmail)) {
+          currAmount = this.props.debtMap[
+            email + singleOwnerEmail
+          ].debts.reduce((prev, curr) => prev + curr.amount, 0);
+          amount += currAmount;
+          countCredits++;
+          data.push(
+            this.buildCreditsTable(singleOwnerEmail, email, currAmount)
+          );
+          creditsArray.push({ singleOwnerEmail, email, currAmount });
+        }
+      }
+    });
+
+    if (amount > 0) {
+      this.setState({
+        allCreditsData: data,
+        allCreditsTotal: amount,
+        numCredits: countCredits,
+        creditsArray: creditsArray
+      });
+    } else {
+      this.setState({
+        noCreditsExisting: true,
+        allCreditsData: null,
+        allCreditsTotal: 0,
+        numCredits: countCredits,
+        creditsArray: []
+      });
+    }
+  }
+
+  buildDebtsData(singleSlaveEmail) {
+    let data = [];
+    let amount = 0;
+    let currAmount = 0;
+    let countDebts = 0;
+    let debtsArray = [];
+    this.props.emails.forEach(email => {
+      if (singleSlaveEmail.localeCompare(email) < 0) {
+        if (this.props.debtList.includes(singleSlaveEmail + email)) {
+          currAmount = this.props.debtMap[
+            singleSlaveEmail + email
+          ].debts.reduce((prev, curr) => prev + curr.amount, 0);
+          amount += currAmount;
+          countDebts++;
+          data.push(this.buildDebtsTable(email, singleSlaveEmail, currAmount));
+          debtsArray.push({ email, singleSlaveEmail, currAmount });
+        }
+      } else {
+        if (this.props.debtList.includes(email + singleSlaveEmail)) {
+          currAmount =
+            this.props.debtMap[email + singleSlaveEmail].debts.reduce(
+              (prev, curr) => prev + curr.amount,
+              0
+            ) * -1;
+          amount += currAmount;
+          countDebts++;
+          data.push(this.buildDebtsTable(email, singleSlaveEmail, currAmount));
+          debtsArray.push({ email, singleSlaveEmail, currAmount });
+        }
+      }
+    });
+
+    if (amount > 0) {
+      this.setState({
+        allDebtsTotal: amount,
+        allDebtsData: data,
+        numDebts: countDebts,
+        debtsArray: debtsArray
+      });
+    } else {
+      this.setState({
+        noDebtsExisiting: true,
+        allDebtsTotal: 0,
+        allDebtsData: null,
+        numDebts: countDebts,
+        debtsArray: []
+      });
+    }
   }
 
   buildDebtsTable(ownerEmail, slaveEmail, amount) {
@@ -95,7 +203,28 @@ class DisplayDebtsContainer extends React.Component {
                     noDebtsExisiting: true
                   });
                 } else {
-                  this.setState({ numDebts: this.state.numDebts - 1 });
+                  let newDebtsArray = [];
+                  let newDebtsData = [];
+                  let newDebtsTotal = 0;
+                  this.state.debtsArray.forEach(debt => {
+                    if (debt.email !== ownerEmail) {
+                      newDebtsTotal += debt.currAmount;
+                      newDebtsArray.push(debt);
+                      newDebtsData.push(
+                        this.buildCreditsTable(
+                          debt.email,
+                          slaveEmail,
+                          debt.currAmount
+                        )
+                      );
+                    }
+                  });
+                  this.setState({
+                    numDebts: this.state.numDebts - 1,
+                    debtsArray: newDebtsArray,
+                    allDebtsData: newDebtsData,
+                    allDebtsTotal: newDebtsTotal
+                  });
                 }
               }
             }}
@@ -134,7 +263,28 @@ class DisplayDebtsContainer extends React.Component {
                     noCreditsExisting: true
                   });
                 } else {
-                  this.setState({ numCredits: this.state.numCredits - 1 });
+                  let newCreditsArray = [];
+                  let newCreditsData = [];
+                  let newCreditsTotal = 0;
+                  this.state.creditsArray.forEach(credit => {
+                    if (credit.email !== slaveEmail) {
+                      newCreditsTotal += credit.currAmount;
+                      newCreditsArray.push(credit);
+                      newCreditsData.push(
+                        this.buildCreditsTable(
+                          ownerEmail,
+                          credit.email,
+                          credit.currAmount
+                        )
+                      );
+                    }
+                  });
+                  this.setState({
+                    numCredits: this.state.numCredits - 1,
+                    creditsArray: newCreditsArray,
+                    allCreditsData: newCreditsData,
+                    allCreditsTotal: newCreditsTotal
+                  });
                 }
               }
             }}
@@ -248,7 +398,8 @@ class DisplayDebtsContainer extends React.Component {
             allDebtsData: null,
             allDebtsTotal: 0,
             noDebtsExisiting: false,
-            numDebts: 0
+            numDebts: 0,
+            debtsArray: []
           })
         }
         handleSingleOwnerEmail={event =>
@@ -257,7 +408,8 @@ class DisplayDebtsContainer extends React.Component {
             allCreditsData: null,
             allCreditsTotal: 0,
             noCreditsExisting: false,
-            numCredits: 0
+            numCredits: 0,
+            creditsArray: []
           })
         }
         setTotalDebtMapAmount={debtMapTotal =>
@@ -266,32 +418,10 @@ class DisplayDebtsContainer extends React.Component {
         setDebtMapData={debtMapData =>
           this.setState({ debtMapData: debtMapData })
         }
-        setTotalDebtsAmount={allDebtsTotal =>
-          this.setState({ allDebtsTotal: allDebtsTotal })
-        }
-        setTotalCreditsAmount={allCreditsTotal =>
-          this.setState({ allCreditsTotal: allCreditsTotal })
-        }
-        setDebtsData={allDebtsData =>
-          this.setState({ allDebtsData: allDebtsData })
-        }
-        setCreditsData={allCreditsData =>
-          this.setState({ allCreditsData: allCreditsData })
-        }
-        setNumDebts={numDebts => this.setState({ numDebts: numDebts })}
-        setNumCredits={numCredits => this.setState({ numCredits: numCredits })}
         setNoTransactionExisting={noTransactionsExisting =>
           this.setState({ noTransactionsExisting: noTransactionsExisting })
         }
-        setNoDebtsExisiting={noDebtsExisiting =>
-          this.setState({ noDebtsExisiting: noDebtsExisiting })
-        }
-        setNoCreditsExisting={noCreditsExisting =>
-          this.setState({ noCreditsExisting: noCreditsExisting })
-        }
         buildDebtMapTable={this.buildDebtMapTable}
-        buildDebtsTable={this.buildDebtsTable}
-        buildCreditsTable={this.buildCreditsTable}
         emails={this.props.emails}
         users={this.props.users}
         debtMap={this.props.debtMap}
@@ -317,6 +447,8 @@ class DisplayDebtsContainer extends React.Component {
         debtMapTableHead={this.state.debtMapData ? debtMapTableHead : null}
         debtTableHead={this.state.allDebtsData ? debtTableHead : null}
         creditTableHead={this.state.allCreditsData ? creditTableHead : null}
+        buildCreditsData={this.buildCreditsData}
+        buildDebtsData={this.buildDebtsData}
       />
     );
   }

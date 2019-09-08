@@ -76,7 +76,7 @@ export const AddDebt = ({
               slaveEmail !== defaultDebitor
             ) {
               if (slaveEmail === ownerEmail) {
-                alert("Debitor email cannot be the same as the Creditor email");
+                alert("Debitor cannot be the same as the Creditor");
               } else {
                 addDebt({
                   userOne: ownerEmail,
@@ -87,7 +87,7 @@ export const AddDebt = ({
                 alert("Debt record added");
               }
             } else {
-              alert("Please select a debitor email and a creditor email");
+              alert("Please select a debitor and a creditor");
             }
           }}
         />

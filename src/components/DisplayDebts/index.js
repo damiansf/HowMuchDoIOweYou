@@ -25,18 +25,10 @@ export const DisplayDebts = ({
   allDebtsTotal,
   handleSingleSlaveEmail,
   singleSlaveEmail,
-  buildDebtsTable,
-  setDebtsData,
-  setTotalDebtsAmount,
   handleSingleOwnerEmail,
-  setCreditsData,
   singleOwnerEmail,
   allCreditsTotal,
   allCreditsData,
-  setTotalCreditsAmount,
-  buildCreditsTable,
-  setNumDebts,
-  setNumCredits,
   noTransactions,
   debtMapTableHead,
   setNoTransactionExisting,
@@ -47,8 +39,8 @@ export const DisplayDebts = ({
   noCredits,
   debtTableHead,
   creditTableHead,
-  setNoDebtsExisiting,
-  setNoCreditsExisting
+  buildDebtsData,
+  buildCreditsData
 }) => (
   <div className="containers">
     <h2 className="titles">View Debts/Credits Between 2 Users</h2>
@@ -160,51 +152,10 @@ export const DisplayDebts = ({
         value="Submit"
         className="submit-button horizontal-submit"
         onClick={() => {
-          let data = [];
-          let amount = 0;
-          let currAmount = 0;
-          let countDebts = 0;
-
           if (defaultSingleDebitor === singleSlaveEmail) {
             alert("Please Select a Debitor");
           } else {
-            emails.forEach(email => {
-              if (singleSlaveEmail.localeCompare(email) < 0) {
-                if (debtList.includes(singleSlaveEmail + email)) {
-                  currAmount = debtMap[singleSlaveEmail + email].debts.reduce(
-                    (prev, curr) => prev + curr.amount,
-                    0
-                  );
-                  amount += currAmount;
-                  countDebts++;
-                  data.push(
-                    buildDebtsTable(email, singleSlaveEmail, currAmount)
-                  );
-                }
-              } else {
-                if (debtList.includes(email + singleSlaveEmail)) {
-                  currAmount =
-                    debtMap[email + singleSlaveEmail].debts.reduce(
-                      (prev, curr) => prev + curr.amount,
-                      0
-                    ) * -1;
-                  amount += currAmount;
-                  countDebts++;
-                  data.push(
-                    buildDebtsTable(email, singleSlaveEmail, currAmount)
-                  );
-                }
-              }
-            });
-            setNumDebts(countDebts);
-            if (amount > 0) {
-              setTotalDebtsAmount(amount);
-              setDebtsData(data);
-            } else {
-              setTotalDebtsAmount(0);
-              setDebtsData(null);
-              setNoDebtsExisiting(true);
-            }
+            buildDebtsData(singleSlaveEmail);
           }
         }}
       />
@@ -237,51 +188,10 @@ export const DisplayDebts = ({
         value="Submit"
         className="submit-button horizontal-submit"
         onClick={() => {
-          let data = [];
-          let amount = 0;
-          let currAmount = 0;
-          let countCredits = 0;
-
           if (singleOwnerEmail === defaultSingleCreditor) {
             alert("Please Select a Creditor");
           } else {
-            emails.forEach(email => {
-              if (singleOwnerEmail.localeCompare(email) < 0) {
-                if (debtList.includes(singleOwnerEmail + email)) {
-                  currAmount =
-                    debtMap[singleOwnerEmail + email].debts.reduce(
-                      (prev, curr) => prev + curr.amount,
-                      0
-                    ) * -1;
-                  amount += currAmount;
-                  countCredits++;
-                  data.push(
-                    buildCreditsTable(singleOwnerEmail, email, currAmount)
-                  );
-                }
-              } else {
-                if (debtList.includes(email + singleOwnerEmail)) {
-                  currAmount = debtMap[email + singleOwnerEmail].debts.reduce(
-                    (prev, curr) => prev + curr.amount,
-                    0
-                  );
-                  amount += currAmount;
-                  countCredits++;
-                  data.push(
-                    buildCreditsTable(singleOwnerEmail, email, currAmount)
-                  );
-                }
-              }
-            });
-            setNumCredits(countCredits);
-            if (amount > 0) {
-              setTotalCreditsAmount(amount);
-              setCreditsData(data);
-            } else {
-              setTotalCreditsAmount(0);
-              setCreditsData(null);
-              setNoCreditsExisting(true);
-            }
+            buildCreditsData(singleOwnerEmail);
           }
         }}
       />

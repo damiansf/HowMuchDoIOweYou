@@ -62,6 +62,7 @@ export const AddUser = ({
                 lastName: lastName,
                 email: email
               });
+              alert("User added");
             } else {
               alert("Please fill in all fields");
             }
